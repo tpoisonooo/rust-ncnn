@@ -1,14 +1,5 @@
-[package]
-name = "rust-ncnn"
-version = "0.1.0"
-edition = "2018"
-buid="build.rs"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
-libc = "0.2"
-
-[build-dependencies]
-cmake = "0.1"
-bindgen    = { version = "*", default-features = false, features = ["runtime"] }
+[workspace]
+members = [
+    "ncnn-sys",
+    "ncnn-rs",
+]

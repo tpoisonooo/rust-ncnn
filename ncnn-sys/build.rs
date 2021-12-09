@@ -39,10 +39,11 @@ fn build() -> io::Result<()> {
     let dst = Config::new(ncnndir())
     .define("NCNN_BUILD_TOOLS", "OFF")
         .define("NCNN_BUILD_EXAMPLES", "OFF")
-        .define("CMAKE_TOOLCHAIN_FILE", 
-            ncnndir().join("toolchains/host.gcc.toolchain.cmake").to_str().unwrap())
-            .cflag("-std=c++11")
-     
+        .define("NCNN_OPENMP", "OFF")
+        // .define("CMAKE_TOOLCHAIN_FILE", 
+        //     ncnndir().join("toolchains/host.gcc.toolchain.cmake").to_str().unwrap())
+            .cflag("-std=c++14")
+            
             .build();
 
     Ok(())
@@ -76,25 +77,44 @@ fn ncnndir() -> PathBuf {
 }
 
 fn main() {
-    let include_paths: Vec<PathBuf> = {
+    let include_paths: Vec<PathBuf> = if let Ok(ncnn_dir) = env::var("NCNN_DIR") { 
+        // use prebuild ncnn dir
+        let dir = PathBuf::from(ncnn_dir);
+        println!(
+            "cargo:rustc-link-search=native={}",
+            dir.join("lib").to_string_lossy()
+        );
+
+        println!("cargo:rustc-link-lib=static=ncnn");
+
+        vec![dir.join("include").join("ncnn")]
+    } else {
+        // fetch from github and build
+        fetch().unwrap();
+        build().unwrap();
+
+        println!(
+            "cargo:rustc-link-search=native={}",
+            output().join("lib").to_string_lossy()
+        );
+
+        println!("cargo:rustc-link-lib=static=ncnnd");
+
         vec![output().join("include").join("ncnn")]
     };
 
-    fetch().unwrap();
-    build().unwrap();
+    println!("cargo:rustc-link-lib=dylib=pthread");
 
-    // The bindgen::Builder is the main entry point
-    // to bindgen, and lets you build up options for
-    // the resulting bindings.
+
 
     let mut builder = bindgen::Builder::default();
-    let files = vec!["mat.h", "platform.h"];
+
+    let files = vec!["c_api.h"];
     for file in files {
         builder = builder.header(search_include(&include_paths, file));
     }
 
     let bindings = builder
-        .clang_arg("-x c++")
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
         .generate()
         .expect("Unable to generate bindings");
