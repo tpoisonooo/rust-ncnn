@@ -11,7 +11,7 @@ impl Option {
         unsafe {
             ptr = ncnn_option_create();
         }
-        Option {ptr}
+        Option { ptr }
     }
 
     pub fn set_num_threads(&self, num_threads: u32) {
@@ -21,7 +21,7 @@ impl Option {
     }
 
     pub fn get_num_threads(&self, num_threads: u32) -> u32 {
-        let num = unsafe {ncnn_option_get_num_threads(self.ptr)};
+        let num = unsafe { ncnn_option_get_num_threads(self.ptr) };
         num as u32
     }
 }
@@ -33,4 +33,3 @@ impl Drop for Option {
         }
     }
 }
-

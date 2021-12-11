@@ -12,10 +12,10 @@ fn fetch() -> io::Result<()> {
     let output_base_path = output();
     let clone_dest_dir = "ncnn-master";
 
-    // let target_dir = output_base_path.join(&clone_dest_dir);
-    // if target_dir.exists() {
-    //     return Ok(());
-    // }
+    let target_dir = output_base_path.join(&clone_dest_dir);
+    if target_dir.exists() {
+        return Ok(());
+    }
     let _ = std::fs::remove_dir_all(output_base_path.join(&clone_dest_dir));
     let status = Command::new("git")
         .current_dir(&output_base_path)
@@ -37,14 +37,18 @@ fn build() -> io::Result<()> {
     let clone_dest_dir = "ncnn-master";
 
     let dst = Config::new(ncnndir())
-    .define("NCNN_BUILD_TOOLS", "OFF")
+        .define("NCNN_BUILD_TOOLS", "OFF")
         .define("NCNN_BUILD_EXAMPLES", "OFF")
         .define("NCNN_OPENMP", "OFF")
-        // .define("CMAKE_TOOLCHAIN_FILE", 
-        //     ncnndir().join("toolchains/host.gcc.toolchain.cmake").to_str().unwrap())
-            .cflag("-std=c++14")
-            
-            .build();
+        .define(
+            "CMAKE_TOOLCHAIN_FILE",
+            ncnndir()
+                .join("toolchains/host.gcc.toolchain.cmake")
+                .to_str()
+                .unwrap(),
+        )
+        .cflag("-std=c++14")
+        .build();
 
     Ok(())
 }
@@ -77,7 +81,7 @@ fn ncnndir() -> PathBuf {
 }
 
 fn main() {
-    let include_paths: Vec<PathBuf> = if let Ok(ncnn_dir) = env::var("NCNN_DIR") { 
+    let include_paths: Vec<PathBuf> = if let Ok(ncnn_dir) = env::var("NCNN_DIR") {
         // use prebuild ncnn dir
         let dir = PathBuf::from(ncnn_dir);
         println!(
@@ -104,8 +108,6 @@ fn main() {
     };
 
     println!("cargo:rustc-link-lib=dylib=pthread");
-
-
 
     let mut builder = bindgen::Builder::default();
 
