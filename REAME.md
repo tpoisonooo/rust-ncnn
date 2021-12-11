@@ -4,6 +4,12 @@ ncnn Rust API.
 
 # Prequisition
 
+## Rust Env
+```bash
+$ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
+```
+
+
 ## CMake >= 3.12
 
 Rust cmake needs `--parallel` option thus CMake3.12 is complusory
@@ -25,4 +31,11 @@ $ sudo apt install clang-3.9   libclang-3.9-dev
 ```bash
 $ cd rust-ncnn/
 $ cargo run --example get_version
+```
+
+# Run Examples and Test
+
+```bash
+$ cargo run --example get_version
+$ cargo test
 ```
