@@ -33,13 +33,14 @@ fn fetch() -> io::Result<()> {
 }
 
 fn build() -> io::Result<()> {
-    let output_base_path = output();
     let clone_dest_dir = "ncnn-master";
 
     let dst = Config::new(ncnndir())
         .define("NCNN_BUILD_TOOLS", "OFF")
         .define("NCNN_BUILD_EXAMPLES", "OFF")
-        .define("NCNN_OPENMP", "OFF")
+        // .define("NCNN_OPENMP", "OFF")
+        .define("NCNN_SHARED_LIB", "ON")
+        .define("CMAKE_BUILD_TYPE", "Release")
         .define(
             "CMAKE_TOOLCHAIN_FILE",
             ncnndir()
@@ -89,7 +90,7 @@ fn main() {
             dir.join("lib").to_string_lossy()
         );
 
-        println!("cargo:rustc-link-lib=static=ncnn");
+        println!("cargo:rustc-link-lib=dylib=ncnn");
 
         vec![dir.join("include").join("ncnn")]
     } else {
@@ -102,7 +103,7 @@ fn main() {
             output().join("lib").to_string_lossy()
         );
 
-        println!("cargo:rustc-link-lib=static=ncnnd");
+        println!("cargo:rustc-link-lib=dylib=ncnn");
 
         vec![output().join("include").join("ncnn")]
     };

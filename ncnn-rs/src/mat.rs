@@ -7,6 +7,10 @@ pub struct Mat {
 }
 
 impl Mat {
+    pub fn get(&self) -> ncnn_mat_t {
+        self.ptr
+    }
+
     pub fn create_1d(w: i32, alloc: Allocator) -> Mat {
         let ptr = unsafe { ncnn_mat_create_1d(w, alloc.get()) };
         Mat { ptr }
@@ -23,25 +27,24 @@ impl Mat {
     }
 
     // same as OpenCV Mat API https://docs.rs/opencv/latest/opencv/core/struct.Mat.html
-    pub unsafe fn create_external_1d(w: i32, data: *mut c_void, alloc: Allocator) -> Mat {
-        let ptr = ncnn_mat_create_external_1d(w, data, alloc.get());
+    pub fn create_external_1d(w: i32, data: *mut c_void, alloc: Allocator) -> Mat {
+        let ptr = unsafe { ncnn_mat_create_external_1d(w, data, alloc.get()) };
         Mat { ptr }
     }
 
-    pub unsafe fn create_external_2d(w: i32, h: i32, data: *mut c_void, alloc: Allocator) -> Mat {
-        let ptr = ncnn_mat_create_external_2d(w, h, data, alloc.get());
+    pub fn create_external_2d(w: i32, h: i32, data: *mut c_void, alloc: Allocator) -> Mat {
+        let ptr = unsafe { ncnn_mat_create_external_2d(w, h, data, alloc.get()) };
         Mat { ptr }
     }
 
-    pub unsafe fn create_external_3d(
-        w: i32,
-        h: i32,
-        c: i32,
-        data: *mut c_void,
-        alloc: Allocator,
-    ) -> Mat {
-        let ptr = ncnn_mat_create_external_3d(w, h, c, data, alloc.get());
+    pub fn create_external_3d(w: i32, h: i32, c: i32, data: *mut c_void, alloc: Allocator) -> Mat {
+        let ptr = unsafe { ncnn_mat_create_external_3d(w, h, c, data, alloc.get()) };
         Mat { ptr }
+    }
+
+    // setter
+    pub fn fill_float(&self, value: f32) {
+        unsafe { ncnn_mat_fill_float(self.ptr, value) };
     }
 
     // getter
@@ -71,10 +74,12 @@ impl Drop for Mat {
 #[cfg(test)]
 mod tests {
     #[test]
-    fn basic_getter_and_setter () {
+    fn basic_getter_and_setter() {
         use crate::mat::*;
         let alloc = Allocator::new();
         let m: Mat = Mat::create_3d(224, 224, 3, alloc);
-        // println!("mat shape: {} {} {} ", m.get_h(), m.get_w(), m.get_c());
+        assert_eq!(224, m.get_h());
+        assert_eq!(224, m.get_w());
+        assert_eq!(3, m.get_c());
     }
 }

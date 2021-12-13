@@ -1,6 +1,7 @@
 extern crate self as ncnn_rs;
 
 pub mod allocator;
+pub mod datareader;
 pub mod mat;
 pub mod net;
 pub mod option;

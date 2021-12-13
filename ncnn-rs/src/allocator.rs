@@ -7,7 +7,7 @@ pub struct Allocator {
 
 impl Allocator {
     pub fn new() -> crate::allocator::Allocator {
-        Allocator{ ptr : null_mut() }
+        Allocator { ptr: null_mut() }
     }
 
     // pub(crate) fn new(unlock: bool) -> crate::allocator::Allocator {
