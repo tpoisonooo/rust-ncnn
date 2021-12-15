@@ -10,7 +10,7 @@ impl Allocator {
         Allocator { ptr: null_mut() }
     }
 
-    // pub(crate) fn new(unlock: bool) -> crate::allocator::Allocator {
+    // pub fn new(unlock: bool) -> crate::allocator::Allocator {
     //     let ptr;
     //     unsafe {
     //         if !unlock {

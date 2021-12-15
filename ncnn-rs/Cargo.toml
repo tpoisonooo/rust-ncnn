@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 anyhow = "1"
 ncnn-sys = { path="../ncnn-sys" }
+libc  = "0.2"

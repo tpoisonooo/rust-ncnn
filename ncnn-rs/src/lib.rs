@@ -1,4 +1,4 @@
-extern crate self as ncnn_rs;
+pub extern crate self as ncnn_rs;
 
 pub mod allocator;
 pub mod datareader;
@@ -6,8 +6,13 @@ pub mod mat;
 pub mod net;
 pub mod option;
 
-use ncnn_sys::*;
+pub use ncnn_sys::*;
 use std::ffi::CStr;
+pub use allocator::*;
+pub use datareader::*;
+pub use mat::*;
+pub use net::*;
+pub use option::*;
 
 pub fn version() -> &'static str {
     let c_buf = unsafe { ncnn_version() };

@@ -6,7 +6,7 @@ pub struct Option {
 }
 
 impl Option {
-    pub(crate) fn new() -> Option {
+    pub fn new() -> Option {
         let ptr;
         unsafe {
             ptr = ncnn_option_create();

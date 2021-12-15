@@ -33,9 +33,10 @@ $ cd rust-ncnn/
 $ cargo run --example get_version
 ```
 
-# Run Examples and Test
+# Run Examples and UnitTest
 
 ```bash
-$ cargo run --example get_version
 $ cargo test
+$ cargo run --example get_version
+$ cargo run --example benchmark
 ```
