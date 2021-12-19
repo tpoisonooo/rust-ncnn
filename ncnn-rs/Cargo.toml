@@ -1,6 +1,6 @@
 [package]
 name = "ncnn-rs"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["tpoisonooo <khj.application@aliyun.com>"]
 edition = "2021"
 description = "ncnn Rust API"
@@ -15,5 +15,5 @@ keywords = ["binding", "ncnn", "API"]
 [dependencies]
 anyhow = "1"
 # ncnn-bind = { path="../ncnn-bind" }
-ncnn-bind = "0.1.0"
+ncnn-bind = "0.1.1"
 libc  = "0.2"

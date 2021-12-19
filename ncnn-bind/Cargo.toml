@@ -1,6 +1,6 @@
 [package]
 name = "ncnn-bind"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["tpoisonooo <khj.application@aliyun.com>"]
 edition = "2021"
 description = "ncnn Rust binding"
