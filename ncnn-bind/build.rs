@@ -41,7 +41,6 @@ fn build() -> io::Result<()> {
             .define("NCNN_BUILD_TOOLS", "OFF")
             .define("NCNN_BUILD_EXAMPLES", "OFF")
             .define("CMAKE_BUILD_TYPE", "Release")
-            .define("NCNN_VULKAN", "OFF")
             // .define(
             //     "CMAKE_TOOLCHAIN_FILE",
             //     ncnndir()
@@ -56,7 +55,6 @@ fn build() -> io::Result<()> {
             .define("NCNN_BUILD_TOOLS", "OFF")
             .define("NCNN_BUILD_EXAMPLES", "OFF")
             .define("NCNN_SHARED_LIB", "ON")
-            .define("NCNN_VULKAN", "OFF")
             .define("CMAKE_BUILD_TYPE", "Release")
             // .define(
             //     "CMAKE_TOOLCHAIN_FILE",
