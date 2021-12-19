@@ -8,6 +8,6 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1"
-ncnn-bind = { path="../ncnn-bind" }
-# ncnn-bind = "0.1.0"
+# ncnn-bind = { path="../ncnn-bind" }
+ncnn-bind = "0.1.0"
 libc  = "0.2"
