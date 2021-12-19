@@ -3,6 +3,12 @@ name = "ncnn-bind"
 version = "0.1.0"
 authors = ["tpoisonooo <khj.application@aliyun.com>"]
 edition = "2021"
+description = "ncnn Rust binding"
+license = "Apache-2.0"
+license-file = "LICENSE.txt"
+homepage = "https://github.com/tpoisonooo/rust-ncnn"
+repository = "https://github.com/tpoisonooo/rust-ncnn"
+keywords = ["binding", "ncnn"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
