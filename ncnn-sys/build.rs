@@ -21,6 +21,8 @@ fn fetch() -> io::Result<()> {
         .current_dir(&output_base_path)
         .arg("clone")
         .arg("--depth=1")
+        .arg("-b")
+        .arg("rust-ncnn")
         .arg("https://github.com/tpoisonooo/ncnn")
         .arg(&clone_dest_dir)
         .status()?;
@@ -33,22 +35,38 @@ fn fetch() -> io::Result<()> {
 }
 
 fn build() -> io::Result<()> {
-    Config::new(ncnndir())
-        .define("NCNN_BUILD_TOOLS", "OFF")
-        .define("NCNN_BUILD_EXAMPLES", "OFF")
-        // .define("NCNN_OPENMP", "OFF")
-        .define("NCNN_SHARED_LIB", "ON")
-        .define("CMAKE_BUILD_TYPE", "Release")
-        .define(
-            "CMAKE_TOOLCHAIN_FILE",
-            ncnndir()
-                .join("toolchains/host.gcc.toolchain.cmake")
-                .to_str()
-                .unwrap(),
-        )
-        .cflag("-std=c++14")
-        .build();
-
+    let dst;
+    if env::var("CARGO_FEATURE_STATIC").is_ok() {
+        dst = Config::new(ncnndir())
+            .define("NCNN_BUILD_TOOLS", "OFF")
+            .define("NCNN_BUILD_EXAMPLES", "OFF")
+            .define("CMAKE_BUILD_TYPE", "Release")
+            .define(
+                "CMAKE_TOOLCHAIN_FILE",
+                ncnndir()
+                    .join("toolchains/host.gcc.toolchain.cmake")
+                    .to_str()
+                    .unwrap(),
+            )
+            .cflag("-std=c++14")
+            .build();
+    } else {
+        dst = Config::new(ncnndir())
+            .define("NCNN_BUILD_TOOLS", "OFF")
+            .define("NCNN_BUILD_EXAMPLES", "OFF")
+            .define("NCNN_SHARED_LIB", "ON")
+            .define("CMAKE_BUILD_TYPE", "Release")
+            .define(
+                "CMAKE_TOOLCHAIN_FILE",
+                ncnndir()
+                    .join("toolchains/host.gcc.toolchain.cmake")
+                    .to_str()
+                    .unwrap(),
+            )
+            .cflag("-std=c++14")
+            .build();
+    }
+    println!("cargo:rustc-link-search=native={}", dst.display());
     Ok(())
 }
 
@@ -62,21 +80,21 @@ fn search_include(include_paths: &[PathBuf], header: &str) -> String {
     format!("/usr/include/{}", header)
 }
 
-// fn maybe_search_include(include_paths: &[PathBuf], header: &str) -> Option<String> {
-//     let path = search_include(include_paths, header);
-//     if fs::metadata(&path).is_ok() {
-//         Some(path)
-//     } else {
-//         None
-//     }
-// }
-
 fn output() -> PathBuf {
     PathBuf::from(env::var("OUT_DIR").unwrap())
 }
 
 fn ncnndir() -> PathBuf {
     output().join("ncnn-master")
+}
+
+fn link_to_libraries() {
+    if env::var("CARGO_FEATURE_STATIC").is_ok() {
+        println!("cargo:rustc-link-lib=static=ncnn");
+    } else {
+        println!("cargo:rustc-link-lib=dylib=ncnn");
+    }
+    println!("cargo:rustc-link-lib=dylib=pthread");
 }
 
 fn main() {
@@ -87,8 +105,6 @@ fn main() {
             "cargo:rustc-link-search=native={}",
             dir.join("lib").to_string_lossy()
         );
-
-        println!("cargo:rustc-link-lib=dylib=ncnn");
 
         vec![dir.join("include").join("ncnn")]
     } else {
@@ -101,13 +117,10 @@ fn main() {
             output().join("lib").to_string_lossy()
         );
 
-        println!("cargo:rustc-link-lib=dylib=ncnn");
-
         vec![output().join("include").join("ncnn")]
     };
 
-    println!("cargo:rustc-link-lib=dylib=pthread");
-
+    link_to_libraries();
     let mut builder = bindgen::Builder::default();
 
     let files = vec!["c_api.h"];
