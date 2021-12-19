@@ -1,9 +1,7 @@
-use crate::allocator::Allocator;
 use crate::datareader::DataReader;
 use ncnn_sys::*;
 use std::ffi::CString;
 use std::os::raw::c_char;
-use std::os::raw::c_void;
 
 pub struct Net {
     ptr: ncnn_net_t,
@@ -41,11 +39,9 @@ impl Net {
         let ret = unsafe { ncnn_net_load_model(self.ptr, c_ptr) };
         ret
     }
-    
+
     pub fn load_model_datareader(&self, dr: &DataReader) -> i32 {
-        unsafe {
-            ncnn_net_load_model_datareader(self.ptr, dr.get())
-        }
+        unsafe { ncnn_net_load_model_datareader(self.ptr, dr.get()) }
     }
 
     pub fn create_extractor(&self) -> Extractor {

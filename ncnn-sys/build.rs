@@ -2,8 +2,8 @@ extern crate bindgen;
 use cmake::Config;
 
 use std::env;
-use std::fs::{self, File};
-use std::io::{self, BufRead, BufReader, Write};
+use std::fs::{self};
+use std::io::{self};
 use std::path::PathBuf;
 use std::process::Command;
 use std::str;
@@ -33,9 +33,7 @@ fn fetch() -> io::Result<()> {
 }
 
 fn build() -> io::Result<()> {
-    let clone_dest_dir = "ncnn-master";
-
-    let dst = Config::new(ncnndir())
+    Config::new(ncnndir())
         .define("NCNN_BUILD_TOOLS", "OFF")
         .define("NCNN_BUILD_EXAMPLES", "OFF")
         // .define("NCNN_OPENMP", "OFF")
@@ -64,14 +62,14 @@ fn search_include(include_paths: &[PathBuf], header: &str) -> String {
     format!("/usr/include/{}", header)
 }
 
-fn maybe_search_include(include_paths: &[PathBuf], header: &str) -> Option<String> {
-    let path = search_include(include_paths, header);
-    if fs::metadata(&path).is_ok() {
-        Some(path)
-    } else {
-        None
-    }
-}
+// fn maybe_search_include(include_paths: &[PathBuf], header: &str) -> Option<String> {
+//     let path = search_include(include_paths, header);
+//     if fs::metadata(&path).is_ok() {
+//         Some(path)
+//     } else {
+//         None
+//     }
+// }
 
 fn output() -> PathBuf {
     PathBuf::from(env::var("OUT_DIR").unwrap())

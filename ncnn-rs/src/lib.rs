@@ -6,13 +6,13 @@ pub mod mat;
 pub mod net;
 pub mod option;
 
-pub use ncnn_sys::*;
-use std::ffi::CStr;
 pub use allocator::*;
 pub use datareader::*;
 pub use mat::*;
+pub use ncnn_sys::*;
 pub use net::*;
 pub use option::*;
+use std::ffi::CStr;
 
 pub fn version() -> &'static str {
     let c_buf = unsafe { ncnn_version() };

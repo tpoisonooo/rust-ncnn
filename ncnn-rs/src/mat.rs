@@ -11,9 +11,9 @@ impl Mat {
         self.ptr
     }
 
-    pub fn new(alloc: &ncnn_Allocator) -> Mat {
-        let ptr = unsafe { ncnn_mat_create_1d(0, alloc.get()) };
-        Mat {ptr}
+    pub fn new() -> Mat {
+        let ptr = unsafe { ncnn_mat_create() };
+        Mat { ptr }
     }
 
     pub fn create_1d(w: i32, alloc: &ncnn_Allocator) -> Mat {
@@ -21,7 +21,7 @@ impl Mat {
         Mat { ptr }
     }
 
-    pub fn create_2d(w: i32, h: i32, alloc:& ncnn_Allocator) -> Mat {
+    pub fn create_2d(w: i32, h: i32, alloc: &ncnn_Allocator) -> Mat {
         let ptr = unsafe { ncnn_mat_create_2d(w, h, alloc.get()) };
         Mat { ptr }
     }
@@ -32,7 +32,7 @@ impl Mat {
     }
 
     // same as OpenCV Mat API https://docs.rs/opencv/latest/opencv/core/struct.Mat.html
-    pub fn create_external_1d(w: i32, data: *mut c_void, alloc:& ncnn_Allocator) -> Mat {
+    pub fn create_external_1d(w: i32, data: *mut c_void, alloc: &ncnn_Allocator) -> Mat {
         let ptr = unsafe { ncnn_mat_create_external_1d(w, data, alloc.get()) };
         Mat { ptr }
     }
@@ -42,7 +42,13 @@ impl Mat {
         Mat { ptr }
     }
 
-    pub fn create_external_3d(w: i32, h: i32, c: i32, data: *mut c_void, alloc: &ncnn_Allocator) -> Mat {
+    pub fn create_external_3d(
+        w: i32,
+        h: i32,
+        c: i32,
+        data: *mut c_void,
+        alloc: &ncnn_Allocator,
+    ) -> Mat {
         let ptr = unsafe { ncnn_mat_create_external_3d(w, h, c, data, alloc.get()) };
         Mat { ptr }
     }
@@ -81,7 +87,16 @@ impl Mat {
     }
 
     // debug
-    pub fn print(&self) {}
+    pub fn print(&self) {
+        println!(
+            "dims {}, c {}, h {}, w {}, elemsize {}",
+            self.get_dims(),
+            self.get_c(),
+            self.get_h(),
+            self.get_w(),
+            self.get_elemsize()
+        );
+    }
 }
 
 impl Drop for Mat {

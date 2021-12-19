@@ -1,17 +1,16 @@
 use libc::memset;
 use ncnn_sys::*;
-use std::os::raw::c_int;
 
 unsafe extern "C" fn default_scan(
-    dr: ncnn_datareader_t,
-    format: *const ::std::os::raw::c_char,
-    p: *mut ::std::os::raw::c_void,
+    _dr: ncnn_datareader_t,
+    _format: *const ::std::os::raw::c_char,
+    _p: *mut ::std::os::raw::c_void,
 ) -> ::std::os::raw::c_int {
     0
 }
 
 unsafe extern "C" fn default_read(
-    dr: ncnn_datareader_t,
+    _dr: ncnn_datareader_t,
     buf: *mut ::std::os::raw::c_void,
     size: size_t,
 ) -> size_t {
