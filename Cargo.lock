@@ -75,12 +75,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "fs_extra"
-version = "1.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2022715d62ab30faffd124d40b76f4134a550a87792276512b18d63272333394"
-
-[[package]]
 name = "glob"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -127,16 +121,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "68354c5c6bd36d73ff3feceb05efa59b6acb7626617f4962be322a825e61f79a"
 
 [[package]]
-name = "ncnn-rs"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "libc",
- "ncnn-sys 0.1.4",
-]
-
-[[package]]
-name = "ncnn-sys"
+name = "ncnn-bind"
 version = "0.1.0"
 dependencies = [
  "bindgen",
@@ -145,14 +130,12 @@ dependencies = [
 ]
 
 [[package]]
-name = "ncnn-sys"
-version = "0.1.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "54ee2cd3eea8030f07b4e310f0c1956277385fd28b58f5122861cb318c2600bd"
+name = "ncnn-rs"
+version = "0.1.0"
 dependencies = [
- "cmake",
- "fs_extra",
- "path-absolutize",
+ "anyhow",
+ "libc",
+ "ncnn-bind",
 ]
 
 [[package]]
@@ -164,30 +147,6 @@ dependencies = [
  "memchr",
  "minimal-lexical",
  "version_check",
-]
-
-[[package]]
-name = "once_cell"
-version = "1.9.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "da32515d9f6e6e489d7bc9d84c71b060db7247dc035bbe44eac88cf87486d8d5"
-
-[[package]]
-name = "path-absolutize"
-version = "3.0.11"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b288298a7a3a7b42539e3181ba590d32f2d91237b0691ed5f103875c754b3bf5"
-dependencies = [
- "path-dedot",
-]
-
-[[package]]
-name = "path-dedot"
-version = "3.0.14"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4bfa72956f6be8524f7f7e2b07972dda393cb0008a6df4451f658b7e1bd1af80"
-dependencies = [
- "once_cell",
 ]
 
 [[package]]

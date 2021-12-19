@@ -1,4 +1,4 @@
-use ncnn_sys::*;
+use ncnn_bind::*;
 use std::os::raw::c_int;
 
 pub struct Option {

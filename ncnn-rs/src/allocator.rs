@@ -1,4 +1,4 @@
-use ncnn_sys::*;
+use ncnn_bind::*;
 use std::ptr::null_mut;
 
 pub struct Allocator {

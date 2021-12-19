@@ -1,5 +1,5 @@
 use crate::allocator::Allocator as ncnn_Allocator;
-use ncnn_sys::*;
+use ncnn_bind::*;
 use std::os::raw::c_void;
 
 pub struct Mat {

@@ -1,5 +1,5 @@
 use libc::memset;
-use ncnn_sys::*;
+use ncnn_bind::*;
 
 unsafe extern "C" fn default_scan(
     _dr: ncnn_datareader_t,
@@ -90,7 +90,7 @@ mod tests {
     }
 
     // use crate::datareader::*;
-    // use ncnn_sys::*;
+    // use ncnn_bind::*;
     // unsafe extern "C" fn empty_scan(
     //     dr: ncnn_datareader_t,
     //     format: *const ::std::os::raw::c_char,

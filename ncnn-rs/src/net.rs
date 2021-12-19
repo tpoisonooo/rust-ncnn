@@ -1,5 +1,5 @@
 use crate::datareader::DataReader;
-use ncnn_sys::*;
+use ncnn_bind::*;
 use std::ffi::CString;
 use std::os::raw::c_char;
 

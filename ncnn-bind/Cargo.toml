@@ -1,5 +1,5 @@
 [package]
-name = "ncnn-sys"
+name = "ncnn-bind"
 version = "0.1.0"
 authors = ["tpoisonooo <khj.application@aliyun.com>"]
 edition = "2021"

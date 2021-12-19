@@ -9,7 +9,7 @@ pub mod option;
 pub use allocator::*;
 pub use datareader::*;
 pub use mat::*;
-pub use ncnn_sys::*;
+pub use ncnn_bind::*;
 pub use net::*;
 pub use option::*;
 use std::ffi::CStr;
