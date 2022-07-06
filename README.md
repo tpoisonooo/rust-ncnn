@@ -12,7 +12,7 @@ $ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 
 ## CMake >= 3.12
 
-Rust cmake needs `--parallel` option thus CMake3.12 is complusory
+Rust cmake needs `--parallel` option thus CMake>=3.12 is complusory
 
 ```bash
 $ pip install cmake --upgrade --user
@@ -39,7 +39,7 @@ build with prebuild ncnn
 $ export NCNN_DIR="/path/to/your/ncnn/lib"
 ```
 
-build with libncnn.a (not recommand because of libomp link error)
+build with libncnn.a (dynamic lib not recommanded because of libomp link error)
 ```bash
 $ export CARGO_FEATURE_STATIC=""
 $ cargo build --example get_version
