@@ -1,4 +1,5 @@
 use crate::allocator::Allocator as ncnn_Allocator;
+use core::fmt;
 use ncnn_bind::*;
 use std::os::raw::c_void;
 
@@ -7,10 +8,6 @@ pub struct Mat {
 }
 
 impl Mat {
-    pub fn get(&self) -> ncnn_mat_t {
-        self.ptr
-    }
-
     pub fn new() -> Mat {
         let ptr = unsafe { ncnn_mat_create() };
         Mat { ptr }
@@ -54,7 +51,7 @@ impl Mat {
     }
 
     // setter
-    pub fn fill(&self, value: f32) {
+    pub fn fill(&mut self, value: f32) {
         unsafe { ncnn_mat_fill_float(self.ptr, value) };
     }
 
@@ -86,16 +83,24 @@ impl Mat {
         unsafe { ncnn_mat_get_data(self.ptr) }
     }
 
-    // debug
-    pub fn print(&self) {
-        println!(
-            "dims {}, c {}, h {}, w {}, elemsize {}",
-            self.get_dims(),
-            self.get_c(),
-            self.get_h(),
-            self.get_w(),
-            self.get_elemsize()
-        );
+    pub fn ptr(&self) -> ncnn_mat_t {
+        self.ptr
+    }
+
+    pub fn mut_ptr(&mut self) -> *mut ncnn_mat_t {
+        &mut self.ptr
+    }
+}
+
+impl fmt::Debug for Mat {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("Mat")
+            .field("dims", &self.get_dims())
+            .field("c", &self.get_c())
+            .field("h", &self.get_h())
+            .field("w", &self.get_w())
+            .field("elemsize", &self.get_elemsize())
+            .finish()
     }
 }
 
