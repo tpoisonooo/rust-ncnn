@@ -14,28 +14,28 @@ impl Mat {
     }
 
     pub fn create_1d(w: i32, alloc: &ncnn_Allocator) -> Mat {
-        let ptr = unsafe { ncnn_mat_create_1d(w, alloc.get()) };
+        let ptr = unsafe { ncnn_mat_create_1d(w, alloc.ptr()) };
         Mat { ptr }
     }
 
     pub fn create_2d(w: i32, h: i32, alloc: &ncnn_Allocator) -> Mat {
-        let ptr = unsafe { ncnn_mat_create_2d(w, h, alloc.get()) };
+        let ptr = unsafe { ncnn_mat_create_2d(w, h, alloc.ptr()) };
         Mat { ptr }
     }
 
     pub fn create_3d(w: i32, h: i32, c: i32, alloc: &ncnn_Allocator) -> Mat {
-        let ptr = unsafe { ncnn_mat_create_3d(w, h, c, alloc.get()) };
+        let ptr = unsafe { ncnn_mat_create_3d(w, h, c, alloc.ptr()) };
         Mat { ptr }
     }
 
     // same as OpenCV Mat API https://docs.rs/opencv/latest/opencv/core/struct.Mat.html
     pub fn create_external_1d(w: i32, data: *mut c_void, alloc: &ncnn_Allocator) -> Mat {
-        let ptr = unsafe { ncnn_mat_create_external_1d(w, data, alloc.get()) };
+        let ptr = unsafe { ncnn_mat_create_external_1d(w, data, alloc.ptr()) };
         Mat { ptr }
     }
 
     pub fn create_external_2d(w: i32, h: i32, data: *mut c_void, alloc: &ncnn_Allocator) -> Mat {
-        let ptr = unsafe { ncnn_mat_create_external_2d(w, h, data, alloc.get()) };
+        let ptr = unsafe { ncnn_mat_create_external_2d(w, h, data, alloc.ptr()) };
         Mat { ptr }
     }
 
@@ -46,7 +46,7 @@ impl Mat {
         data: *mut c_void,
         alloc: &ncnn_Allocator,
     ) -> Mat {
-        let ptr = unsafe { ncnn_mat_create_external_3d(w, h, c, data, alloc.get()) };
+        let ptr = unsafe { ncnn_mat_create_external_3d(w, h, c, data, alloc.ptr()) };
         Mat { ptr }
     }
 
@@ -83,11 +83,11 @@ impl Mat {
         unsafe { ncnn_mat_get_data(self.ptr) }
     }
 
-    pub fn ptr(&self) -> ncnn_mat_t {
+    pub(crate) fn ptr(&self) -> ncnn_mat_t {
         self.ptr
     }
 
-    pub fn mut_ptr(&mut self) -> *mut ncnn_mat_t {
+    pub(crate) fn mut_ptr(&mut self) -> *mut ncnn_mat_t {
         &mut self.ptr
     }
 }

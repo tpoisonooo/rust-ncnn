@@ -13,7 +13,7 @@ fn benchmark(name: &str, mut mat_in: Mat, opt: &ncnn_option, out: &str) {
     let mut mat_out = Mat::new();
     mat_in.fill(1.0 as f32);
 
-    let net = Net::new();
+    let mut net = Net::new();
     let path = param_path().join("../params").join(name);
     if !path.exists() {
         println!("vgg16 param not exist: {:?}", path);
@@ -22,7 +22,7 @@ fn benchmark(name: &str, mut mat_in: Mat, opt: &ncnn_option, out: &str) {
 
     net.set_option(opt);
     net.load_param(path.to_str().unwrap());
-    let dr = DataReader::new();
+    let mut dr = DataReader::new();
     dr.use_empty_config();
     net.load_model_datareader(&dr);
 
@@ -43,7 +43,7 @@ fn benchmark(name: &str, mut mat_in: Mat, opt: &ncnn_option, out: &str) {
 }
 
 fn main() {
-    let opt = ncnn_option::new();
+    let mut opt = ncnn_option::new();
     opt.set_num_threads(1);
 
     let alloc = ncnn_rs::allocator::Allocator::new();

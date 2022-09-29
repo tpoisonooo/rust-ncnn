@@ -31,7 +31,7 @@ impl DataReader {
         DataReader { ptr }
     }
 
-    pub fn use_empty_config(&self) {
+    pub fn use_empty_config(&mut self) {
         unsafe {
             (*(self.ptr)).scan = Some(default_scan);
             (*(self.ptr)).read = Some(default_read);
@@ -39,7 +39,7 @@ impl DataReader {
     }
 
     pub fn set_scan(
-        &self,
+        &mut self,
         function_ptr: std::option::Option<
             unsafe extern "C" fn(
                 dr: ncnn_datareader_t,
@@ -54,7 +54,7 @@ impl DataReader {
     }
 
     pub fn set_read(
-        &self,
+        &mut self,
         function_ptr: std::option::Option<
             unsafe extern "C" fn(
                 dr: ncnn_datareader_t,
@@ -68,7 +68,7 @@ impl DataReader {
         }
     }
 
-    pub fn get(&self) -> ncnn_datareader_t {
+    pub(crate) fn ptr(&self) -> ncnn_datareader_t {
         self.ptr
     }
 }
