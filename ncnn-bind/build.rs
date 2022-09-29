@@ -94,10 +94,16 @@ fn link_to_libraries() {
     } else {
         println!("cargo:rustc-link-lib=dylib=ncnn");
     }
-    println!("cargo:rustc-link-lib=dylib=pthread");
+
+    if !cfg!(windows) {
+        println!("cargo:rustc-link-lib=dylib=pthread");
+    }
 }
 
 fn main() {
+    println!("cargo:rerun-if-env-changed=NCNN_DIR");
+    println!("cargo:rerun-if-env-changed=CARGO_FEATURE_STATIC");
+
     let include_paths: Vec<PathBuf> = if let Ok(ncnn_dir) = env::var("NCNN_DIR") {
         // use prebuild ncnn dir
         let dir = PathBuf::from(ncnn_dir);
