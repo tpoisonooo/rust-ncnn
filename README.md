@@ -1,16 +1,21 @@
 # rust-ncnn
 
-ncnn Rust API.
+Rust bindings for [ncnn](https://github.com/tencent/ncnn).
 
-# Prequisition
+## Docs
 
-## Rust Env
+```bash
+$ cargo doc 
+```
+## Prequisition
+
+### Rust Env
 ```bash
 $ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 ```
 
 
-## CMake >= 3.12
+### CMake >= 3.12
 
 Rust cmake needs `--parallel` option thus CMake>=3.12 is complusory
 
@@ -18,34 +23,54 @@ Rust cmake needs `--parallel` option thus CMake>=3.12 is complusory
 $ pip install cmake --upgrade --user
 ```
 
-## Clang >= 3.9
+### Clang >= 3.9
 
-Rust bindgen use `clang` to generate `bindings.rs` with `c_api.h`.
+Rust bindgen uses `clang` to generate `bindings.rs` from `c_api.h`.
 
 ```bash
-$ sudo apt install clang-3.9   libclang-3.9-dev
+$ sudo apt install clang-3.9 libclang-3.9-dev
 ```
 
-# Build
+## Build
 
-build with libncnn.so by default.
+NCNN build from source:
 ```bash
 $ cd rust-ncnn/
 $ cargo run --example get_version
 ```
 
-build with prebuild ncnn
+Use specific NCNN release:
+```bash
+$ export NCNN_TAG="20220420"
+```
+
+Use prebuilt ncnn:
 ```bash
 $ export NCNN_DIR="/path/to/your/ncnn/lib"
 ```
 
-build with libncnn.a (dynamic lib not recommanded because of libomp link error)
+## Linking
+
+By default library uses dynamic linking on linux and static linking on windows.
+
+To explicitly use static linking:
 ```bash
-$ export CARGO_FEATURE_STATIC=""
-$ cargo build --example get_version
+$ cargo build --example benchmark --features ncnn-bind/static
 ```
 
-# Run Examples and UnitTest
+To explicitly use dynamic linking:
+```bash
+$ cargo build --example benchmark --features ncnn-bind/dynamic
+```
+
+## Vulkan
+
+Build with Vulkan support (requires Vulkan SDK):
+```bash
+$ cargo build --example benchmark --features ncnn-bind/vulkan
+```
+
+## Run Examples and UnitTest
 
 ```bash
 $ cargo test
