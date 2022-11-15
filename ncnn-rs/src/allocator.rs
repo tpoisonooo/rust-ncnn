@@ -22,7 +22,7 @@ impl Allocator {
     //     Allocator { ptr }
     // }
 
-    pub fn get(&self) -> ncnn_allocator_t {
+    pub(crate) fn ptr(&self) -> ncnn_allocator_t {
         self.ptr
     }
 }

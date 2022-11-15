@@ -1,4 +1,5 @@
 use crate::allocator::Allocator as ncnn_Allocator;
+use core::fmt;
 use ncnn_bind::*;
 use std::os::raw::c_void;
 
@@ -7,38 +8,34 @@ pub struct Mat {
 }
 
 impl Mat {
-    pub fn get(&self) -> ncnn_mat_t {
-        self.ptr
-    }
-
     pub fn new() -> Mat {
         let ptr = unsafe { ncnn_mat_create() };
         Mat { ptr }
     }
 
     pub fn create_1d(w: i32, alloc: &ncnn_Allocator) -> Mat {
-        let ptr = unsafe { ncnn_mat_create_1d(w, alloc.get()) };
+        let ptr = unsafe { ncnn_mat_create_1d(w, alloc.ptr()) };
         Mat { ptr }
     }
 
     pub fn create_2d(w: i32, h: i32, alloc: &ncnn_Allocator) -> Mat {
-        let ptr = unsafe { ncnn_mat_create_2d(w, h, alloc.get()) };
+        let ptr = unsafe { ncnn_mat_create_2d(w, h, alloc.ptr()) };
         Mat { ptr }
     }
 
     pub fn create_3d(w: i32, h: i32, c: i32, alloc: &ncnn_Allocator) -> Mat {
-        let ptr = unsafe { ncnn_mat_create_3d(w, h, c, alloc.get()) };
+        let ptr = unsafe { ncnn_mat_create_3d(w, h, c, alloc.ptr()) };
         Mat { ptr }
     }
 
     // same as OpenCV Mat API https://docs.rs/opencv/latest/opencv/core/struct.Mat.html
     pub fn create_external_1d(w: i32, data: *mut c_void, alloc: &ncnn_Allocator) -> Mat {
-        let ptr = unsafe { ncnn_mat_create_external_1d(w, data, alloc.get()) };
+        let ptr = unsafe { ncnn_mat_create_external_1d(w, data, alloc.ptr()) };
         Mat { ptr }
     }
 
     pub fn create_external_2d(w: i32, h: i32, data: *mut c_void, alloc: &ncnn_Allocator) -> Mat {
-        let ptr = unsafe { ncnn_mat_create_external_2d(w, h, data, alloc.get()) };
+        let ptr = unsafe { ncnn_mat_create_external_2d(w, h, data, alloc.ptr()) };
         Mat { ptr }
     }
 
@@ -49,12 +46,12 @@ impl Mat {
         data: *mut c_void,
         alloc: &ncnn_Allocator,
     ) -> Mat {
-        let ptr = unsafe { ncnn_mat_create_external_3d(w, h, c, data, alloc.get()) };
+        let ptr = unsafe { ncnn_mat_create_external_3d(w, h, c, data, alloc.ptr()) };
         Mat { ptr }
     }
 
     // setter
-    pub fn fill(&self, value: f32) {
+    pub fn fill(&mut self, value: f32) {
         unsafe { ncnn_mat_fill_float(self.ptr, value) };
     }
 
@@ -86,16 +83,24 @@ impl Mat {
         unsafe { ncnn_mat_get_data(self.ptr) }
     }
 
-    // debug
-    pub fn print(&self) {
-        println!(
-            "dims {}, c {}, h {}, w {}, elemsize {}",
-            self.get_dims(),
-            self.get_c(),
-            self.get_h(),
-            self.get_w(),
-            self.get_elemsize()
-        );
+    pub(crate) fn ptr(&self) -> ncnn_mat_t {
+        self.ptr
+    }
+
+    pub(crate) fn mut_ptr(&mut self) -> *mut ncnn_mat_t {
+        &mut self.ptr
+    }
+}
+
+impl fmt::Debug for Mat {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("Mat")
+            .field("dims", &self.get_dims())
+            .field("c", &self.get_c())
+            .field("h", &self.get_h())
+            .field("w", &self.get_w())
+            .field("elemsize", &self.get_elemsize())
+            .finish()
     }
 }
 

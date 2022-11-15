@@ -14,7 +14,7 @@ impl Option {
         Option { ptr }
     }
 
-    pub fn set_num_threads(&self, num_threads: u32) {
+    pub fn set_num_threads(&mut self, num_threads: u32) {
         unsafe {
             ncnn_option_set_num_threads(self.ptr, num_threads as c_int);
         }
@@ -25,7 +25,7 @@ impl Option {
         num as u32
     }
 
-    pub fn get(&self) -> ncnn_option_t {
+    pub(crate) fn ptr(&self) -> ncnn_option_t {
         self.ptr
     }
 }
@@ -43,7 +43,7 @@ mod tests {
     #[test]
     fn get_cpu_info() {
         use crate::option::*;
-        let opt = Option::new();
+        let mut opt = Option::new();
         opt.set_num_threads(4);
         assert_eq!(4, opt.get_num_threads());
     }
