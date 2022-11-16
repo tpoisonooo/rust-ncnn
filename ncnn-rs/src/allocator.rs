@@ -1,26 +1,31 @@
 use ncnn_bind::*;
-use std::ptr::null_mut;
 
 pub struct Allocator {
     ptr: ncnn_allocator_t,
 }
 
 impl Allocator {
-    pub fn new() -> crate::allocator::Allocator {
-        Allocator { ptr: null_mut() }
+    /// Creates a new pool allocator.
+    ///
+    /// # Safety
+    ///
+    /// Using the allocator when creating matrix results in a segmentation fault.
+    pub unsafe fn new() -> crate::allocator::Allocator {
+        Allocator {
+            ptr: ncnn_allocator_create_pool_allocator(),
+        }
     }
 
-    // pub fn new(unlock: bool) -> crate::allocator::Allocator {
-    //     let ptr;
-    //     unsafe {
-    //         if !unlock {
-    //             ptr = ncnn_allocator_create_pool_allocator();
-    //         } else {
-    //             ptr = ncnn_allocator_create_unlocked_pool_allocator();
-    //         }
-    //     }
-    //     Allocator { ptr }
-    // }
+    /// Creates a new unlocked pool allocator.
+    ///
+    /// # Safety
+    ///
+    /// Using the allocator when creating matrix results in a segmentation fault.
+    pub unsafe fn new_unlocked() -> crate::allocator::Allocator {
+        Allocator {
+            ptr: ncnn_allocator_create_unlocked_pool_allocator(),
+        }
+    }
 
     pub(crate) fn ptr(&self) -> ncnn_allocator_t {
         self.ptr
@@ -30,9 +35,7 @@ impl Allocator {
 impl Drop for Allocator {
     fn drop(&mut self) {
         unsafe {
-            if !self.ptr.is_null() {
-                ncnn_allocator_destroy(self.ptr);
-            }
+            ncnn_allocator_destroy(self.ptr);
         }
     }
 }

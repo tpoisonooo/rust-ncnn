@@ -2,29 +2,41 @@ extern crate bindgen;
 use cmake::Config;
 
 use std::env;
-use std::fs::{self};
-use std::io::{self};
+use std::fs;
+use std::io;
 use std::path::PathBuf;
 use std::process::Command;
 use std::str;
 
-fn fetch() -> io::Result<()> {
-    let output_base_path = output();
-    let clone_dest_dir = "ncnn-master";
+const DEFAULT_NCNN_TAG: &'static str = "20220729";
 
-    let target_dir = output_base_path.join(&clone_dest_dir);
+fn output_dir() -> PathBuf {
+    PathBuf::from(env::var("OUT_DIR").unwrap())
+}
+
+fn ncnn_src_dir() -> PathBuf {
+    output_dir().join(format!("ncnn-src-{}", ncnn_tag()))
+}
+
+fn ncnn_tag() -> String {
+    env::var("NCNN_TAG").unwrap_or(DEFAULT_NCNN_TAG.to_string())
+}
+
+fn fetch() -> io::Result<()> {
+    let target_dir = ncnn_src_dir();
+
     if target_dir.exists() {
         return Ok(());
     }
-    let _ = std::fs::remove_dir_all(output_base_path.join(&clone_dest_dir));
+
     let status = Command::new("git")
-        .current_dir(&output_base_path)
         .arg("clone")
+        .arg("--recursive")
         .arg("--depth=1")
         .arg("-b")
-        .arg("rust-ncnn")
-        .arg("https://github.com/tpoisonooo/ncnn")
-        .arg(&clone_dest_dir)
+        .arg(ncnn_tag())
+        .arg("https://github.com/Tencent/ncnn")
+        .arg(&target_dir)
         .status()?;
 
     if status.success() {
@@ -35,38 +47,24 @@ fn fetch() -> io::Result<()> {
 }
 
 fn build() -> io::Result<()> {
-    let dst;
-    if env::var("CARGO_FEATURE_STATIC").is_ok() {
-        dst = Config::new(ncnndir())
-            .define("NCNN_BUILD_TOOLS", "OFF")
-            .define("NCNN_BUILD_EXAMPLES", "OFF")
-            .define("CMAKE_BUILD_TYPE", "Release")
-            // .define(
-            //     "CMAKE_TOOLCHAIN_FILE",
-            //     ncnndir()
-            //         .join("toolchains/host.gcc.toolchain.cmake")
-            //         .to_str()
-            //         .unwrap(),
-            // )
-            .cflag("-std=c++14")
-            .build();
-    } else {
-        dst = Config::new(ncnndir())
-            .define("NCNN_BUILD_TOOLS", "OFF")
-            .define("NCNN_BUILD_EXAMPLES", "OFF")
-            .define("NCNN_SHARED_LIB", "ON")
-            .define("CMAKE_BUILD_TYPE", "Release")
-            // .define(
-            //     "CMAKE_TOOLCHAIN_FILE",
-            //     ncnndir()
-            //         .join("toolchains/host.gcc.toolchain.cmake")
-            //         .to_str()
-            //         .unwrap(),
-            // )
-            .cflag("-std=c++14")
-            .build();
+    let mut config = Config::new(ncnn_src_dir());
+    config.define("NCNN_BUILD_TOOLS", "OFF");
+    config.define("NCNN_BUILD_EXAMPLES", "OFF");
+    config.define("NCNN_BUILD_BENCHMARK", "OFF");
+    config.define("CMAKE_BUILD_TYPE", "Release");
+
+    if cfg!(feature = "vulkan") {
+        config.define("NCNN_VULKAN", "ON");
     }
+
+    if use_dynamic_linking() {
+        config.define("NCNN_SHARED_LIB", "ON");
+    }
+
+    let dst = config.build();
+
     println!("cargo:rustc-link-search=native={}", dst.display());
+
     Ok(())
 }
 
@@ -80,29 +78,48 @@ fn search_include(include_paths: &[PathBuf], header: &str) -> String {
     format!("/usr/include/{}", header)
 }
 
-fn output() -> PathBuf {
-    PathBuf::from(env::var("OUT_DIR").unwrap())
-}
-
-fn ncnndir() -> PathBuf {
-    output().join("ncnn-master")
-}
-
-fn link_to_libraries() {
-    if env::var("CARGO_FEATURE_STATIC").is_ok() {
-        println!("cargo:rustc-link-lib=static=ncnn");
+fn use_dynamic_linking() -> bool {
+    if cfg!(feature = "static") && cfg!(feature = "dynamic") {
+        panic!(
+            "Both `static` and `dynamic` features are specified. Only one can be used at a time."
+        );
+    } else if cfg!(feature = "static") {
+        false
+    } else if cfg!(feature = "dynamic") {
+        true
     } else {
-        println!("cargo:rustc-link-lib=dylib=ncnn");
+        // By default use static linking for windows and dynamic for linux
+        if cfg!(windows) {
+            false
+        } else {
+            true
+        }
     }
+}
 
-    if !cfg!(windows) {
-        println!("cargo:rustc-link-lib=dylib=pthread");
+fn link_vulkan() {
+    let target_family = env::var("CARGO_CFG_TARGET_FAMILY").unwrap();
+    let target_pointer_width = env::var("CARGO_CFG_TARGET_POINTER_WIDTH").unwrap();
+
+    println!("cargo:rerun-if-env-changed=VULKAN_SDK");
+    if let Ok(var) = env::var("VULKAN_SDK") {
+        let suffix = match (&*target_family, &*target_pointer_width) {
+            ("windows", "32") => "Lib32",
+            ("windows", "64") => "Lib",
+            _ => "lib",
+        };
+        println!("cargo:rustc-link-search={}/{}", var, suffix);
     }
+    let lib = match &*target_family {
+        "windows" => "vulkan-1",
+        _ => "vulkan",
+    };
+    println!("cargo:rustc-link-lib={}", lib);
 }
 
 fn main() {
     println!("cargo:rerun-if-env-changed=NCNN_DIR");
-    println!("cargo:rerun-if-env-changed=CARGO_FEATURE_STATIC");
+    println!("cargo:rerun-if-env-changed=NCNN_TAG");
 
     let include_paths: Vec<PathBuf> = if let Ok(ncnn_dir) = env::var("NCNN_DIR") {
         // use prebuild ncnn dir
@@ -120,27 +137,38 @@ fn main() {
 
         println!(
             "cargo:rustc-link-search=native={}",
-            output().join("lib").to_string_lossy()
+            output_dir().join("lib").to_string_lossy()
         );
 
-        vec![output().join("include").join("ncnn")]
+        vec![output_dir().join("include").join("ncnn")]
     };
 
-    link_to_libraries();
-    let mut builder = bindgen::Builder::default();
-
-    let files = vec!["c_api.h"];
-    for file in files {
-        builder = builder.header(search_include(&include_paths, file));
+    if use_dynamic_linking() {
+        println!("cargo:rustc-link-lib=dylib=ncnn");
+    } else {
+        println!("cargo:rustc-link-lib=static=ncnn");
     }
 
-    let bindings = builder
-        .parse_callbacks(Box::new(bindgen::CargoCallbacks))
+    if !cfg!(windows) {
+        println!("cargo:rustc-link-lib=dylib=pthread");
+    }
+
+    if cfg!(feature = "vulkan") {
+        link_vulkan();
+    }
+
+    let header = search_include(&include_paths, "c_api.h");
+
+    let bindings = bindgen::Builder::default()
+        .header(header)
+        .allowlist_type("regex")
+        .allowlist_function("ncnn.*")
+        .allowlist_var("NCNN.*")
+        .allowlist_type("ncnn.*")
         .generate()
         .expect("Unable to generate bindings");
 
-    let out_path = output();
     bindings
-        .write_to_file(out_path.join("bindings.rs"))
+        .write_to_file(output_dir().join("bindings.rs"))
         .expect("Couldn't write bindings!");
 }

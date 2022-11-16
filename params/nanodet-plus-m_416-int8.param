@@ -1,0 +1,242 @@
+7767517
+240 280
+Input                    data                     0 1 data
+Convolution              Conv_1                   1 1 data onnx::MaxPool_890 0=24 1=3 3=2 4=1 5=1 6=648 8=2 9=2 -23310=1,1.000000e-01
+Pooling                  MaxPool_3                1 1 onnx::MaxPool_890 input.8 1=3 2=2 3=1 5=1
+Split                    splitncnn_0              1 2 input.8 input.8_splitncnn_0 input.8_splitncnn_1
+ConvolutionDepthWise     Conv_4                   1 1 input.8_splitncnn_1 input.16 0=24 1=3 3=2 4=1 5=1 6=216 7=24 8=101
+Convolution              Conv_5                   1 1 input.16 onnx::Concat_896 0=58 1=1 5=1 6=1392 8=2 9=2 -23310=1,1.000000e-01
+Convolution              Conv_7                   1 1 input.8_splitncnn_0 onnx::Conv_899 0=58 1=1 5=1 6=1392 8=102 9=2 -23310=1,1.000000e-01
+ConvolutionDepthWise     Conv_9                   1 1 onnx::Conv_899 input.40 0=58 1=3 3=2 4=1 5=1 6=522 7=58 8=101
+Convolution              Conv_10                  1 1 input.40 onnx::Concat_904 0=58 1=1 5=1 6=3364 8=2 9=2 -23310=1,1.000000e-01
+Concat                   Concat_12                2 1 onnx::Concat_896 onnx::Concat_904 out
+ShuffleChannel           Reshape_17               1 1 out onnx::Shape_910 0=2
+Split                    splitncnn_1              1 2 onnx::Shape_910 onnx::Shape_910_splitncnn_0 onnx::Shape_910_splitncnn_1
+Crop                     Slice_28                 1 1 onnx::Shape_910_splitncnn_1 onnx::Concat_921 -23309=1,0 -23310=1,58 -23311=1,0
+Crop                     Slice_31                 1 1 onnx::Shape_910_splitncnn_0 onnx::Conv_924 -23309=1,58 -23310=1,116 -23311=1,0
+Convolution              Conv_32                  1 1 onnx::Conv_924 onnx::Conv_927 0=58 1=1 5=1 6=3364 8=102 9=2 -23310=1,1.000000e-01
+ConvolutionDepthWise     Conv_34                  1 1 onnx::Conv_927 input.64 0=58 1=3 4=1 5=1 6=522 7=58 8=101
+Convolution              Conv_35                  1 1 input.64 onnx::Concat_932 0=58 1=1 5=1 6=3364 8=2 9=2 -23310=1,1.000000e-01
+Concat                   Concat_37                2 1 onnx::Concat_921 onnx::Concat_932 out.3
+ShuffleChannel           Reshape_42               1 1 out.3 onnx::Shape_938 0=2
+Split                    splitncnn_2              1 2 onnx::Shape_938 onnx::Shape_938_splitncnn_0 onnx::Shape_938_splitncnn_1
+Crop                     Slice_53                 1 1 onnx::Shape_938_splitncnn_1 onnx::Concat_949 -23309=1,0 -23310=1,58 -23311=1,0
+Crop                     Slice_56                 1 1 onnx::Shape_938_splitncnn_0 onnx::Conv_952 -23309=1,58 -23310=1,116 -23311=1,0
+Convolution              Conv_57                  1 1 onnx::Conv_952 onnx::Conv_955 0=58 1=1 5=1 6=3364 8=102 9=2 -23310=1,1.000000e-01
+ConvolutionDepthWise     Conv_59                  1 1 onnx::Conv_955 input.88 0=58 1=3 4=1 5=1 6=522 7=58 8=101
+Convolution              Conv_60                  1 1 input.88 onnx::Concat_960 0=58 1=1 5=1 6=3364 8=2 9=2 -23310=1,1.000000e-01
+Concat                   Concat_62                2 1 onnx::Concat_949 onnx::Concat_960 out.7
+ShuffleChannel           Reshape_67               1 1 out.7 onnx::Shape_966 0=2
+Split                    splitncnn_3              1 2 onnx::Shape_966 onnx::Shape_966_splitncnn_0 onnx::Shape_966_splitncnn_1
+Crop                     Slice_78                 1 1 onnx::Shape_966_splitncnn_1 onnx::Concat_977 -23309=1,0 -23310=1,58 -23311=1,0
+Crop                     Slice_81                 1 1 onnx::Shape_966_splitncnn_0 onnx::Conv_980 -23309=1,58 -23310=1,116 -23311=1,0
+Convolution              Conv_82                  1 1 onnx::Conv_980 onnx::Conv_983 0=58 1=1 5=1 6=3364 8=102 9=2 -23310=1,1.000000e-01
+ConvolutionDepthWise     Conv_84                  1 1 onnx::Conv_983 input.112 0=58 1=3 4=1 5=1 6=522 7=58 8=101
+Convolution              Conv_85                  1 1 input.112 onnx::Concat_988 0=58 1=1 5=1 6=3364 8=2 9=2 -23310=1,1.000000e-01
+Concat                   Concat_87                2 1 onnx::Concat_977 onnx::Concat_988 out.11
+ShuffleChannel           Reshape_92               1 1 out.11 input.124 0=2
+Split                    splitncnn_4              1 3 input.124 input.124_splitncnn_0 input.124_splitncnn_1 input.124_splitncnn_2
+ConvolutionDepthWise     Conv_93                  1 1 input.124_splitncnn_2 input.132 0=116 1=3 3=2 4=1 5=1 6=1044 7=116 8=101
+Convolution              Conv_94                  1 1 input.132 onnx::Concat_999 0=116 1=1 5=1 6=13456 8=2 9=2 -23310=1,1.000000e-01
+Convolution              Conv_96                  1 1 input.124_splitncnn_1 onnx::Conv_1002 0=116 1=1 5=1 6=13456 8=102 9=2 -23310=1,1.000000e-01
+ConvolutionDepthWise     Conv_98                  1 1 onnx::Conv_1002 input.156 0=116 1=3 3=2 4=1 5=1 6=1044 7=116 8=101
+Convolution              Conv_99                  1 1 input.156 onnx::Concat_1007 0=116 1=1 5=1 6=13456 8=2 9=2 -23310=1,1.000000e-01
+Concat                   Concat_101               2 1 onnx::Concat_999 onnx::Concat_1007 out.15
+ShuffleChannel           Reshape_106              1 1 out.15 onnx::Shape_1013 0=2
+Split                    splitncnn_5              1 2 onnx::Shape_1013 onnx::Shape_1013_splitncnn_0 onnx::Shape_1013_splitncnn_1
+Crop                     Slice_117                1 1 onnx::Shape_1013_splitncnn_1 onnx::Concat_1024 -23309=1,0 -23310=1,116 -23311=1,0
+Crop                     Slice_120                1 1 onnx::Shape_1013_splitncnn_0 onnx::Conv_1027 -23309=1,116 -23310=1,232 -23311=1,0
+Convolution              Conv_121                 1 1 onnx::Conv_1027 onnx::Conv_1030 0=116 1=1 5=1 6=13456 8=102 9=2 -23310=1,1.000000e-01
+ConvolutionDepthWise     Conv_123                 1 1 onnx::Conv_1030 input.180 0=116 1=3 4=1 5=1 6=1044 7=116 8=101
+Convolution              Conv_124                 1 1 input.180 onnx::Concat_1035 0=116 1=1 5=1 6=13456 8=2 9=2 -23310=1,1.000000e-01
+Concat                   Concat_126               2 1 onnx::Concat_1024 onnx::Concat_1035 out.19
+ShuffleChannel           Reshape_131              1 1 out.19 onnx::Shape_1041 0=2
+Split                    splitncnn_6              1 2 onnx::Shape_1041 onnx::Shape_1041_splitncnn_0 onnx::Shape_1041_splitncnn_1
+Crop                     Slice_142                1 1 onnx::Shape_1041_splitncnn_1 onnx::Concat_1052 -23309=1,0 -23310=1,116 -23311=1,0
+Crop                     Slice_145                1 1 onnx::Shape_1041_splitncnn_0 onnx::Conv_1055 -23309=1,116 -23310=1,232 -23311=1,0
+Convolution              Conv_146                 1 1 onnx::Conv_1055 onnx::Conv_1058 0=116 1=1 5=1 6=13456 8=102 9=2 -23310=1,1.000000e-01
+ConvolutionDepthWise     Conv_148                 1 1 onnx::Conv_1058 input.204 0=116 1=3 4=1 5=1 6=1044 7=116 8=101
+Convolution              Conv_149                 1 1 input.204 onnx::Concat_1063 0=116 1=1 5=1 6=13456 8=2 9=2 -23310=1,1.000000e-01
+Concat                   Concat_151               2 1 onnx::Concat_1052 onnx::Concat_1063 out.23
+ShuffleChannel           Reshape_156              1 1 out.23 onnx::Shape_1069 0=2
+Split                    splitncnn_7              1 2 onnx::Shape_1069 onnx::Shape_1069_splitncnn_0 onnx::Shape_1069_splitncnn_1
+Crop                     Slice_167                1 1 onnx::Shape_1069_splitncnn_1 onnx::Concat_1080 -23309=1,0 -23310=1,116 -23311=1,0
+Crop                     Slice_170                1 1 onnx::Shape_1069_splitncnn_0 onnx::Conv_1083 -23309=1,116 -23310=1,232 -23311=1,0
+Convolution              Conv_171                 1 1 onnx::Conv_1083 onnx::Conv_1086 0=116 1=1 5=1 6=13456 8=102 9=2 -23310=1,1.000000e-01
+ConvolutionDepthWise     Conv_173                 1 1 onnx::Conv_1086 input.228 0=116 1=3 4=1 5=1 6=1044 7=116 8=101
+Convolution              Conv_174                 1 1 input.228 onnx::Concat_1091 0=116 1=1 5=1 6=13456 8=2 9=2 -23310=1,1.000000e-01
+Concat                   Concat_176               2 1 onnx::Concat_1080 onnx::Concat_1091 out.27
+ShuffleChannel           Reshape_181              1 1 out.27 onnx::Shape_1097 0=2
+Split                    splitncnn_8              1 2 onnx::Shape_1097 onnx::Shape_1097_splitncnn_0 onnx::Shape_1097_splitncnn_1
+Crop                     Slice_192                1 1 onnx::Shape_1097_splitncnn_1 onnx::Concat_1108 -23309=1,0 -23310=1,116 -23311=1,0
+Crop                     Slice_195                1 1 onnx::Shape_1097_splitncnn_0 onnx::Conv_1111 -23309=1,116 -23310=1,232 -23311=1,0
+Convolution              Conv_196                 1 1 onnx::Conv_1111 onnx::Conv_1114 0=116 1=1 5=1 6=13456 8=102 9=2 -23310=1,1.000000e-01
+ConvolutionDepthWise     Conv_198                 1 1 onnx::Conv_1114 input.252 0=116 1=3 4=1 5=1 6=1044 7=116 8=101
+Convolution              Conv_199                 1 1 input.252 onnx::Concat_1119 0=116 1=1 5=1 6=13456 8=2 9=2 -23310=1,1.000000e-01
+Concat                   Concat_201               2 1 onnx::Concat_1108 onnx::Concat_1119 out.31
+ShuffleChannel           Reshape_206              1 1 out.31 onnx::Shape_1125 0=2
+Split                    splitncnn_9              1 2 onnx::Shape_1125 onnx::Shape_1125_splitncnn_0 onnx::Shape_1125_splitncnn_1
+Crop                     Slice_217                1 1 onnx::Shape_1125_splitncnn_1 onnx::Concat_1136 -23309=1,0 -23310=1,116 -23311=1,0
+Crop                     Slice_220                1 1 onnx::Shape_1125_splitncnn_0 onnx::Conv_1139 -23309=1,116 -23310=1,232 -23311=1,0
+Convolution              Conv_221                 1 1 onnx::Conv_1139 onnx::Conv_1142 0=116 1=1 5=1 6=13456 8=102 9=2 -23310=1,1.000000e-01
+ConvolutionDepthWise     Conv_223                 1 1 onnx::Conv_1142 input.276 0=116 1=3 4=1 5=1 6=1044 7=116 8=101
+Convolution              Conv_224                 1 1 input.276 onnx::Concat_1147 0=116 1=1 5=1 6=13456 8=2 9=2 -23310=1,1.000000e-01
+Concat                   Concat_226               2 1 onnx::Concat_1136 onnx::Concat_1147 out.35
+ShuffleChannel           Reshape_231              1 1 out.35 onnx::Shape_1153 0=2
+Split                    splitncnn_10             1 2 onnx::Shape_1153 onnx::Shape_1153_splitncnn_0 onnx::Shape_1153_splitncnn_1
+Crop                     Slice_242                1 1 onnx::Shape_1153_splitncnn_1 onnx::Concat_1164 -23309=1,0 -23310=1,116 -23311=1,0
+Crop                     Slice_245                1 1 onnx::Shape_1153_splitncnn_0 onnx::Conv_1167 -23309=1,116 -23310=1,232 -23311=1,0
+Convolution              Conv_246                 1 1 onnx::Conv_1167 onnx::Conv_1170 0=116 1=1 5=1 6=13456 8=102 9=2 -23310=1,1.000000e-01
+ConvolutionDepthWise     Conv_248                 1 1 onnx::Conv_1170 input.300 0=116 1=3 4=1 5=1 6=1044 7=116 8=101
+Convolution              Conv_249                 1 1 input.300 onnx::Concat_1175 0=116 1=1 5=1 6=13456 8=2 9=2 -23310=1,1.000000e-01
+Concat                   Concat_251               2 1 onnx::Concat_1164 onnx::Concat_1175 out.39
+ShuffleChannel           Reshape_256              1 1 out.39 onnx::Shape_1181 0=2
+Split                    splitncnn_11             1 2 onnx::Shape_1181 onnx::Shape_1181_splitncnn_0 onnx::Shape_1181_splitncnn_1
+Crop                     Slice_267                1 1 onnx::Shape_1181_splitncnn_1 onnx::Concat_1192 -23309=1,0 -23310=1,116 -23311=1,0
+Crop                     Slice_270                1 1 onnx::Shape_1181_splitncnn_0 onnx::Conv_1195 -23309=1,116 -23310=1,232 -23311=1,0
+Convolution              Conv_271                 1 1 onnx::Conv_1195 onnx::Conv_1198 0=116 1=1 5=1 6=13456 8=102 9=2 -23310=1,1.000000e-01
+ConvolutionDepthWise     Conv_273                 1 1 onnx::Conv_1198 input.324 0=116 1=3 4=1 5=1 6=1044 7=116 8=101
+Convolution              Conv_274                 1 1 input.324 onnx::Concat_1203 0=116 1=1 5=1 6=13456 8=2 9=2 -23310=1,1.000000e-01
+Concat                   Concat_276               2 1 onnx::Concat_1192 onnx::Concat_1203 out.43
+ShuffleChannel           Reshape_281              1 1 out.43 input.336 0=2
+Split                    splitncnn_12             1 3 input.336 input.336_splitncnn_0 input.336_splitncnn_1 input.336_splitncnn_2
+ConvolutionDepthWise     Conv_282                 1 1 input.336_splitncnn_2 input.344 0=232 1=3 3=2 4=1 5=1 6=2088 7=232 8=101
+Convolution              Conv_283                 1 1 input.344 onnx::Concat_1214 0=232 1=1 5=1 6=53824 8=2 9=2 -23310=1,1.000000e-01
+Convolution              Conv_285                 1 1 input.336_splitncnn_1 onnx::Conv_1217 0=232 1=1 5=1 6=53824 8=102 9=2 -23310=1,1.000000e-01
+ConvolutionDepthWise     Conv_287                 1 1 onnx::Conv_1217 input.368 0=232 1=3 3=2 4=1 5=1 6=2088 7=232 8=101
+Convolution              Conv_288                 1 1 input.368 onnx::Concat_1222 0=232 1=1 5=1 6=53824 8=2 9=2 -23310=1,1.000000e-01
+Concat                   Concat_290               2 1 onnx::Concat_1214 onnx::Concat_1222 out.47
+ShuffleChannel           Reshape_295              1 1 out.47 onnx::Shape_1228 0=2
+Split                    splitncnn_13             1 2 onnx::Shape_1228 onnx::Shape_1228_splitncnn_0 onnx::Shape_1228_splitncnn_1
+Crop                     Slice_306                1 1 onnx::Shape_1228_splitncnn_1 onnx::Concat_1239 -23309=1,0 -23310=1,232 -23311=1,0
+Crop                     Slice_309                1 1 onnx::Shape_1228_splitncnn_0 onnx::Conv_1242 -23309=1,232 -23310=1,464 -23311=1,0
+Convolution              Conv_310                 1 1 onnx::Conv_1242 onnx::Conv_1245 0=232 1=1 5=1 6=53824 8=102 9=2 -23310=1,1.000000e-01
+ConvolutionDepthWise     Conv_312                 1 1 onnx::Conv_1245 input.392 0=232 1=3 4=1 5=1 6=2088 7=232 8=101
+Convolution              Conv_313                 1 1 input.392 onnx::Concat_1250 0=232 1=1 5=1 6=53824 8=2 9=2 -23310=1,1.000000e-01
+Concat                   Concat_315               2 1 onnx::Concat_1239 onnx::Concat_1250 out.51
+ShuffleChannel           Reshape_320              1 1 out.51 onnx::Shape_1256 0=2
+Split                    splitncnn_14             1 2 onnx::Shape_1256 onnx::Shape_1256_splitncnn_0 onnx::Shape_1256_splitncnn_1
+Crop                     Slice_331                1 1 onnx::Shape_1256_splitncnn_1 onnx::Concat_1267 -23309=1,0 -23310=1,232 -23311=1,0
+Crop                     Slice_334                1 1 onnx::Shape_1256_splitncnn_0 onnx::Conv_1270 -23309=1,232 -23310=1,464 -23311=1,0
+Convolution              Conv_335                 1 1 onnx::Conv_1270 onnx::Conv_1273 0=232 1=1 5=1 6=53824 8=102 9=2 -23310=1,1.000000e-01
+ConvolutionDepthWise     Conv_337                 1 1 onnx::Conv_1273 input.416 0=232 1=3 4=1 5=1 6=2088 7=232 8=101
+Convolution              Conv_338                 1 1 input.416 onnx::Concat_1278 0=232 1=1 5=1 6=53824 8=2 9=2 -23310=1,1.000000e-01
+Concat                   Concat_340               2 1 onnx::Concat_1267 onnx::Concat_1278 out.55
+ShuffleChannel           Reshape_345              1 1 out.55 onnx::Shape_1284 0=2
+Split                    splitncnn_15             1 2 onnx::Shape_1284 onnx::Shape_1284_splitncnn_0 onnx::Shape_1284_splitncnn_1
+Crop                     Slice_356                1 1 onnx::Shape_1284_splitncnn_1 onnx::Concat_1295 -23309=1,0 -23310=1,232 -23311=1,0
+Crop                     Slice_359                1 1 onnx::Shape_1284_splitncnn_0 onnx::Conv_1298 -23309=1,232 -23310=1,464 -23311=1,0
+Convolution              Conv_360                 1 1 onnx::Conv_1298 onnx::Conv_1301 0=232 1=1 5=1 6=53824 8=102 9=2 -23310=1,1.000000e-01
+ConvolutionDepthWise     Conv_362                 1 1 onnx::Conv_1301 input.440 0=232 1=3 4=1 5=1 6=2088 7=232 8=101
+Convolution              Conv_363                 1 1 input.440 onnx::Concat_1306 0=232 1=1 5=1 6=53824 8=2 9=2 -23310=1,1.000000e-01
+Concat                   Concat_365               2 1 onnx::Concat_1295 onnx::Concat_1306 out.59
+ShuffleChannel           Reshape_370              1 1 out.59 input.452 0=2
+Convolution              Conv_371                 1 1 input.124_splitncnn_0 onnx::Concat_1315 0=96 1=1 5=1 6=11136 8=2 9=2 -23310=1,1.000000e-01
+Convolution              Conv_373                 1 1 input.336_splitncnn_0 onnx::Concat_1318 0=96 1=1 5=1 6=22272 8=2 9=2 -23310=1,1.000000e-01
+Convolution              Conv_375                 1 1 input.452 onnx::Resize_1321 0=96 1=1 5=1 6=44544 8=2 9=2 -23310=1,1.000000e-01
+Split                    splitncnn_16             1 3 onnx::Resize_1321 onnx::Resize_1321_splitncnn_0 onnx::Resize_1321_splitncnn_1 onnx::Resize_1321_splitncnn_2
+Interp                   Resize_378               1 1 onnx::Resize_1321_splitncnn_2 onnx::Concat_1326 0=2 1=2.000000e+00 2=2.000000e+00
+Concat                   Concat_379               2 1 onnx::Concat_1326 onnx::Concat_1318 input.480
+Split                    splitncnn_17             1 2 input.480 input.480_splitncnn_0 input.480_splitncnn_1
+Convolution              Conv_380                 1 1 input.480_splitncnn_1 onnx::Conv_1330 0=48 1=1 5=1 6=9216 8=2 9=2 -23310=1,1.000000e-01
+Split                    splitncnn_18             1 2 onnx::Conv_1330 onnx::Conv_1330_splitncnn_0 onnx::Conv_1330_splitncnn_1
+ConvolutionDepthWise     Conv_382                 1 1 onnx::Conv_1330_splitncnn_1 onnx::Concat_1333 0=48 1=3 4=1 5=1 6=432 7=48 8=1 9=2 -23310=1,1.000000e-01
+Concat                   Concat_384               2 1 onnx::Conv_1330_splitncnn_0 onnx::Concat_1333 input.500
+Convolution              Conv_385                 1 1 input.500 input.508 0=48 1=1 5=1 6=4608 8=2
+Split                    splitncnn_19             1 2 input.508 input.508_splitncnn_0 input.508_splitncnn_1
+ConvolutionDepthWise     Conv_386                 1 1 input.508_splitncnn_1 onnx::Concat_1714 0=48 1=3 4=1 5=1 6=432 7=48 8=1
+Concat                   Concat_387               2 1 input.508_splitncnn_0 onnx::Concat_1714 onnx::Add_1339
+ConvolutionDepthWise     Conv_388                 1 1 input.480_splitncnn_0 input.520 0=192 1=5 4=2 5=1 6=4800 7=192 8=101
+Convolution              Conv_389                 1 1 input.520 onnx::Add_1720 0=96 1=1 5=1 6=18432 8=2
+BinaryOp                 Add_390                  2 1 onnx::Add_1339 onnx::Add_1720 onnx::Resize_1344
+Split                    splitncnn_20             1 2 onnx::Resize_1344 onnx::Resize_1344_splitncnn_0 onnx::Resize_1344_splitncnn_1
+Interp                   Resize_392               1 1 onnx::Resize_1344_splitncnn_1 onnx::Concat_1349 0=2 1=2.000000e+00 2=2.000000e+00
+Concat                   Concat_393               2 1 onnx::Concat_1349 onnx::Concat_1315 input.528
+Split                    splitncnn_21             1 2 input.528 input.528_splitncnn_0 input.528_splitncnn_1
+Convolution              Conv_394                 1 1 input.528_splitncnn_1 onnx::Conv_1353 0=48 1=1 5=1 6=9216 8=2 9=2 -23310=1,1.000000e-01
+Split                    splitncnn_22             1 2 onnx::Conv_1353 onnx::Conv_1353_splitncnn_0 onnx::Conv_1353_splitncnn_1
+ConvolutionDepthWise     Conv_396                 1 1 onnx::Conv_1353_splitncnn_1 onnx::Concat_1356 0=48 1=3 4=1 5=1 6=432 7=48 8=1 9=2 -23310=1,1.000000e-01
+Concat                   Concat_398               2 1 onnx::Conv_1353_splitncnn_0 onnx::Concat_1356 input.548
+Convolution              Conv_399                 1 1 input.548 input.556 0=48 1=1 5=1 6=4608 8=2
+Split                    splitncnn_23             1 2 input.556 input.556_splitncnn_0 input.556_splitncnn_1
+ConvolutionDepthWise     Conv_400                 1 1 input.556_splitncnn_1 onnx::Concat_1732 0=48 1=3 4=1 5=1 6=432 7=48 8=1
+Concat                   Concat_401               2 1 input.556_splitncnn_0 onnx::Concat_1732 onnx::Add_1362
+ConvolutionDepthWise     Conv_402                 1 1 input.528_splitncnn_0 input.568 0=192 1=5 4=2 5=1 6=4800 7=192 8=101
+Convolution              Conv_403                 1 1 input.568 onnx::Add_1738 0=96 1=1 5=1 6=18432 8=2
+BinaryOp                 Add_404                  2 1 onnx::Add_1362 onnx::Add_1738 onnx::Conv_1367
+Split                    splitncnn_24             1 2 onnx::Conv_1367 onnx::Conv_1367_splitncnn_0 onnx::Conv_1367_splitncnn_1
+ConvolutionDepthWise     Conv_405                 1 1 onnx::Conv_1367_splitncnn_1 onnx::Conv_1370 0=96 1=5 3=2 4=2 5=1 6=2400 7=96 8=101 9=2 -23310=1,1.000000e-01
+Convolution              Conv_407                 1 1 onnx::Conv_1370 onnx::Concat_1373 0=96 1=1 5=1 6=9216 8=2 9=2 -23310=1,1.000000e-01
+Concat                   Concat_409               2 1 onnx::Concat_1373 onnx::Resize_1344_splitncnn_0 input.592
+Split                    splitncnn_25             1 2 input.592 input.592_splitncnn_0 input.592_splitncnn_1
+Convolution              Conv_410                 1 1 input.592_splitncnn_1 onnx::Conv_1377 0=48 1=1 5=1 6=9216 8=2 9=2 -23310=1,1.000000e-01
+Split                    splitncnn_26             1 2 onnx::Conv_1377 onnx::Conv_1377_splitncnn_0 onnx::Conv_1377_splitncnn_1
+ConvolutionDepthWise     Conv_412                 1 1 onnx::Conv_1377_splitncnn_1 onnx::Concat_1380 0=48 1=3 4=1 5=1 6=432 7=48 8=1 9=2 -23310=1,1.000000e-01
+Concat                   Concat_414               2 1 onnx::Conv_1377_splitncnn_0 onnx::Concat_1380 input.612
+Convolution              Conv_415                 1 1 input.612 input.620 0=48 1=1 5=1 6=4608 8=2
+Split                    splitncnn_27             1 2 input.620 input.620_splitncnn_0 input.620_splitncnn_1
+ConvolutionDepthWise     Conv_416                 1 1 input.620_splitncnn_1 onnx::Concat_1756 0=48 1=3 4=1 5=1 6=432 7=48 8=1
+Concat                   Concat_417               2 1 input.620_splitncnn_0 onnx::Concat_1756 onnx::Add_1386
+ConvolutionDepthWise     Conv_418                 1 1 input.592_splitncnn_0 input.632 0=192 1=5 4=2 5=1 6=4800 7=192 8=101
+Convolution              Conv_419                 1 1 input.632 onnx::Add_1762 0=96 1=1 5=1 6=18432 8=2
+BinaryOp                 Add_420                  2 1 onnx::Add_1386 onnx::Add_1762 onnx::Conv_1391
+Split                    splitncnn_28             1 2 onnx::Conv_1391 onnx::Conv_1391_splitncnn_0 onnx::Conv_1391_splitncnn_1
+ConvolutionDepthWise     Conv_421                 1 1 onnx::Conv_1391_splitncnn_1 onnx::Conv_1394 0=96 1=5 3=2 4=2 5=1 6=2400 7=96 8=101 9=2 -23310=1,1.000000e-01
+Convolution              Conv_423                 1 1 onnx::Conv_1394 onnx::Concat_1397 0=96 1=1 5=1 6=9216 8=2 9=2 -23310=1,1.000000e-01
+Concat                   Concat_425               2 1 onnx::Concat_1397 onnx::Resize_1321_splitncnn_1 input.656
+Split                    splitncnn_29             1 2 input.656 input.656_splitncnn_0 input.656_splitncnn_1
+Convolution              Conv_426                 1 1 input.656_splitncnn_1 onnx::Conv_1401 0=48 1=1 5=1 6=9216 8=2 9=2 -23310=1,1.000000e-01
+Split                    splitncnn_30             1 2 onnx::Conv_1401 onnx::Conv_1401_splitncnn_0 onnx::Conv_1401_splitncnn_1
+ConvolutionDepthWise     Conv_428                 1 1 onnx::Conv_1401_splitncnn_1 onnx::Concat_1404 0=48 1=3 4=1 5=1 6=432 7=48 8=1 9=2 -23310=1,1.000000e-01
+Concat                   Concat_430               2 1 onnx::Conv_1401_splitncnn_0 onnx::Concat_1404 input.676
+Convolution              Conv_431                 1 1 input.676 input.684 0=48 1=1 5=1 6=4608 8=2
+Split                    splitncnn_31             1 2 input.684 input.684_splitncnn_0 input.684_splitncnn_1
+ConvolutionDepthWise     Conv_432                 1 1 input.684_splitncnn_1 onnx::Concat_1780 0=48 1=3 4=1 5=1 6=432 7=48 8=1
+Concat                   Concat_433               2 1 input.684_splitncnn_0 onnx::Concat_1780 onnx::Add_1410
+ConvolutionDepthWise     Conv_434                 1 1 input.656_splitncnn_0 input.696 0=192 1=5 4=2 5=1 6=4800 7=192 8=101
+Convolution              Conv_435                 1 1 input.696 onnx::Add_1786 0=96 1=1 5=1 6=18432 8=2
+BinaryOp                 Add_436                  2 1 onnx::Add_1410 onnx::Add_1786 onnx::Conv_1415
+Split                    splitncnn_32             1 2 onnx::Conv_1415 onnx::Conv_1415_splitncnn_0 onnx::Conv_1415_splitncnn_1
+ConvolutionDepthWise     Conv_437                 1 1 onnx::Resize_1321_splitncnn_0 onnx::Conv_1418 0=96 1=5 3=2 4=2 5=1 6=2400 7=96 8=101 9=2 -23310=1,1.000000e-01
+Convolution              Conv_439                 1 1 onnx::Conv_1418 onnx::Add_1421 0=96 1=1 5=1 6=9216 8=2 9=2 -23310=1,1.000000e-01
+ConvolutionDepthWise     Conv_441                 1 1 onnx::Conv_1415_splitncnn_1 onnx::Conv_1424 0=96 1=5 3=2 4=2 5=1 6=2400 7=96 8=101 9=2 -23310=1,1.000000e-01
+Convolution              Conv_443                 1 1 onnx::Conv_1424 onnx::Add_1427 0=96 1=1 5=1 6=9216 8=2 9=2 -23310=1,1.000000e-01
+BinaryOp                 Add_445                  2 1 onnx::Add_1421 onnx::Add_1427 input.736
+ConvolutionDepthWise     Conv_446                 1 1 onnx::Conv_1367_splitncnn_0 onnx::Conv_1431 0=96 1=5 4=2 5=1 6=2400 7=96 8=101 9=2 -23310=1,1.000000e-01
+Convolution              Conv_448                 1 1 onnx::Conv_1431 onnx::Conv_1434 0=96 1=1 5=1 6=9216 8=102 9=2 -23310=1,1.000000e-01
+ConvolutionDepthWise     Conv_450                 1 1 onnx::Conv_1434 onnx::Conv_1437 0=96 1=5 4=2 5=1 6=2400 7=96 8=101 9=2 -23310=1,1.000000e-01
+Convolution              Conv_452                 1 1 onnx::Conv_1437 onnx::Conv_1440 0=96 1=1 5=1 6=9216 8=102 9=2 -23310=1,1.000000e-01
+Convolution              Conv_454                 1 1 onnx::Conv_1440 output.1 0=34 1=1 5=1 6=3264 8=2
+Slice                    Split_455                1 2 output.1 onnx::Sigmoid_1442 onnx::Concat_1443 -23300=2,2,-233
+Sigmoid                  Sigmoid_456              1 1 onnx::Sigmoid_1442 onnx::Concat_1444
+Concat                   Concat_457               2 1 onnx::Concat_1444 onnx::Concat_1443 onnx::Shape_1445
+Reshape                  Reshape_465              1 1 onnx::Shape_1445 onnx::Concat_1453 0=-1 1=34
+ConvolutionDepthWise     Conv_466                 1 1 onnx::Conv_1391_splitncnn_0 onnx::Conv_1456 0=96 1=5 4=2 5=1 6=2400 7=96 8=101 9=2 -23310=1,1.000000e-01
+Convolution              Conv_468                 1 1 onnx::Conv_1456 onnx::Conv_1459 0=96 1=1 5=1 6=9216 8=102 9=2 -23310=1,1.000000e-01
+ConvolutionDepthWise     Conv_470                 1 1 onnx::Conv_1459 onnx::Conv_1462 0=96 1=5 4=2 5=1 6=2400 7=96 8=101 9=2 -23310=1,1.000000e-01
+Convolution              Conv_472                 1 1 onnx::Conv_1462 onnx::Conv_1465 0=96 1=1 5=1 6=9216 8=102 9=2 -23310=1,1.000000e-01
+Convolution              Conv_474                 1 1 onnx::Conv_1465 output.3 0=34 1=1 5=1 6=3264 8=2
+Slice                    Split_475                1 2 output.3 onnx::Sigmoid_1467 onnx::Concat_1468 -23300=2,2,-233
+Sigmoid                  Sigmoid_476              1 1 onnx::Sigmoid_1467 onnx::Concat_1469
+Concat                   Concat_477               2 1 onnx::Concat_1469 onnx::Concat_1468 onnx::Shape_1470
+Reshape                  Reshape_485              1 1 onnx::Shape_1470 onnx::Concat_1478 0=-1 1=34
+ConvolutionDepthWise     Conv_486                 1 1 onnx::Conv_1415_splitncnn_0 onnx::Conv_1481 0=96 1=5 4=2 5=1 6=2400 7=96 8=101 9=2 -23310=1,1.000000e-01
+Convolution              Conv_488                 1 1 onnx::Conv_1481 onnx::Conv_1484 0=96 1=1 5=1 6=9216 8=102 9=2 -23310=1,1.000000e-01
+ConvolutionDepthWise     Conv_490                 1 1 onnx::Conv_1484 onnx::Conv_1487 0=96 1=5 4=2 5=1 6=2400 7=96 8=101 9=2 -23310=1,1.000000e-01
+Convolution              Conv_492                 1 1 onnx::Conv_1487 onnx::Conv_1490 0=96 1=1 5=1 6=9216 8=102 9=2 -23310=1,1.000000e-01
+Convolution              Conv_494                 1 1 onnx::Conv_1490 output.7 0=34 1=1 5=1 6=3264 8=2
+Slice                    Split_495                1 2 output.7 onnx::Sigmoid_1492 onnx::Concat_1493 -23300=2,2,-233
+Sigmoid                  Sigmoid_496              1 1 onnx::Sigmoid_1492 onnx::Concat_1494
+Concat                   Concat_497               2 1 onnx::Concat_1494 onnx::Concat_1493 onnx::Shape_1495
+Reshape                  Reshape_505              1 1 onnx::Shape_1495 onnx::Concat_1503 0=-1 1=34
+ConvolutionDepthWise     Conv_506                 1 1 input.736 onnx::Conv_1506 0=96 1=5 4=2 5=1 6=2400 7=96 8=101 9=2 -23310=1,1.000000e-01
+Convolution              Conv_508                 1 1 onnx::Conv_1506 onnx::Conv_1509 0=96 1=1 5=1 6=9216 8=102 9=2 -23310=1,1.000000e-01
+ConvolutionDepthWise     Conv_510                 1 1 onnx::Conv_1509 onnx::Conv_1512 0=96 1=5 4=2 5=1 6=2400 7=96 8=101 9=2 -23310=1,1.000000e-01
+Convolution              Conv_512                 1 1 onnx::Conv_1512 onnx::Conv_1515 0=96 1=1 5=1 6=9216 8=102 9=2 -23310=1,1.000000e-01
+Convolution              Conv_514                 1 1 onnx::Conv_1515 output.11 0=34 1=1 5=1 6=3264 8=2
+Slice                    Split_515                1 2 output.11 onnx::Sigmoid_1517 onnx::Concat_1518 -23300=2,2,-233
+Sigmoid                  Sigmoid_516              1 1 onnx::Sigmoid_1517 onnx::Concat_1519
+Concat                   Concat_517               2 1 onnx::Concat_1519 onnx::Concat_1518 onnx::Shape_1520
+Reshape                  Reshape_525              1 1 onnx::Shape_1520 onnx::Concat_1528 0=-1 1=34
+Concat                   Concat_526               4 1 onnx::Concat_1453 onnx::Concat_1478 onnx::Concat_1503 onnx::Concat_1528 onnx::Transpose_1529 0=1
+Permute                  Transpose_527            1 1 onnx::Transpose_1529 output 0=1
