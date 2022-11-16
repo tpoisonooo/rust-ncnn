@@ -116,6 +116,6 @@ nanodet-plus-m_416.param 		 11 ms
 nanodet-plus-m_416-int8.param 		 20 ms
 ```
 
-## Acknowlegements
+## Acknowledgements
 
 * [lit-robotics](https://litrobotics.lt/en)
