@@ -124,3 +124,4 @@ nanodet-plus-m_416-int8.param 		 20 ms
 ## Acknowledgements
 
 * [lit-robotics/rust-ncnn](https://github.com/lit-robotics/rust-ncnn)
+* [ncnn](https://github.com/tencent/ncnn)
