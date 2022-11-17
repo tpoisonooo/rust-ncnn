@@ -6,8 +6,8 @@ Rust bindings for [ncnn](https://github.com/tencent/ncnn).
 ## Docs
 
 Open Github pages
-* [ncnn_rs](https://rust-ncnn.github.io/ncnn_rs/)
-* [ncnn_bind](https://rust-ncnn.github.io/ncnn_bind/)
+* [ncnn_rs](https://rust-ncnn.github.io/ncnn_rs/) - low-level bindings
+* [ncnn_bind](https://rust-ncnn.github.io/ncnn_bind/) - safe ncnn abstractions
 
 Or `cargo doc` and open with browser byself
 
