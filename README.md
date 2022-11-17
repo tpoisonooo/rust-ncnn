@@ -5,9 +5,14 @@ Rust bindings for [ncnn](https://github.com/tencent/ncnn).
 
 ## Docs
 
-Build doc and open with browser
+Open Github pages
+* [ncnn_rs](https://rust-ncnn.github.io/ncnn_rs/)
+* [ncnn_bind](https://rust-ncnn.github.io/ncnn_bind/)
+
+Or `cargo doc` and open with browser byself
 
 ```bash
+$ cd /path/to/rust-ncnn
 $ cargo doc --open
 ```
 
@@ -29,7 +34,7 @@ $ pip install cmake --upgrade --user
 
 ### Clang >= 3.9
 
-Rust bindgen uses `clang` to generate `bindings.rs` from `c_api.h`.
+Rust bindgen uses `clang` to generate `bindings.rs` from `c_api.h`
 
 ```bash
 $ sudo apt install clang-3.9 libclang-3.9-dev
