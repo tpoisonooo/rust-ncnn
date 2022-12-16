@@ -1,5 +1,5 @@
 # rust-ncnn
-[![GitHub license](https://img.shields.io/badge/license-apache--2--Clause-brightgreen.svg)](./LICENSE) [![CI](https://img.shields.io/github/workflow/status/tpoisonooo/rust-ncnn/CI?label=CI)](https://github.com/tpoisonooo/rust-ncnn/actions/workflows/ci.yaml?query=workflow%3A)
+[![GitHub license](https://img.shields.io/badge/license-apache--2--Clause-brightgreen.svg)](./LICENSE) [![CI](https://img.shields.io/github/actions/workflow/status/tpoisonooo/rust-ncnn/ci.yaml?branch=master)](https://github.com/tpoisonooo/rust-ncnn/actions/workflows/ci.yaml?query=workflow%3A)
 
 Rust bindings for [ncnn](https://github.com/tencent/ncnn).
 
