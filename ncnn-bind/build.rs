@@ -117,7 +117,7 @@ fn link_vulkan() {
     println!("cargo:rustc-link-lib={}", lib);
 }
 
-fn main() {
+fn build_ncnn() -> Vec<PathBuf> {
     println!("cargo:rerun-if-env-changed=NCNN_DIR");
     println!("cargo:rerun-if-env-changed=NCNN_TAG");
 
@@ -156,6 +156,17 @@ fn main() {
     if cfg!(feature = "vulkan") {
         link_vulkan();
     }
+    return include_paths;
+}
+
+fn main() {
+    let include_paths = if let Ok(vcpkg_lib) = vcpkg::find_package("ncnn")
+    {
+        vec![vcpkg_lib.include_paths[0].join("ncnn")]
+    } else {
+        build_ncnn()
+    };
+
 
     let header = search_include(&include_paths, "c_api.h");
 
