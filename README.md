@@ -59,6 +59,12 @@ Use prebuilt ncnn:
 $ export NCNN_DIR="/path/to/your/ncnn/lib"
 ```
 
+Or use vcpkg
+```bash
+vcpkg install ncnn:x64-windows-static-md
+cargo run --example get_version
+```
+
 ## Linking
 
 By default library uses dynamic **linking on linux** and **static linking on windows**.
