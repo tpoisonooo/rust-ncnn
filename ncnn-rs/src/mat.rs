@@ -37,6 +37,9 @@ pub struct Mat {
     ptr: ncnn_mat_t,
 }
 
+// Mat is basically a glorified atomically refcounted matrix.
+unsafe impl Send for Mat {}
+
 impl Mat {
     /// Constructs an empty matrix.
     pub fn new() -> Self {
