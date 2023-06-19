@@ -184,7 +184,7 @@ impl Mat {
         }
     }
 
-    /// Constructs matrix from a pixel byte array.
+    /// Constructs matrix from a pixel byte array
     pub fn from_pixels(
         data: &[u8],
         pixel_type: MatPixelType,
@@ -261,22 +261,22 @@ impl Mat {
         unsafe { ncnn_mat_get_dims(self.ptr) }
     }
 
-    /// Returns matrix width
+    /// Returns matrix width.
     pub fn w(&self) -> i32 {
         unsafe { ncnn_mat_get_w(self.ptr) }
     }
 
-    /// Returns matrix height
+    /// Returns matrix height.
     pub fn h(&self) -> i32 {
         unsafe { ncnn_mat_get_h(self.ptr) }
     }
 
-    /// Returns matrix depth
+    /// Returns matrix depth.
     pub fn d(&self) -> i32 {
         unsafe { ncnn_mat_get_d(self.ptr) }
     }
 
-    /// Returns matrix channels
+    /// Returns matrix channels.
     pub fn c(&self) -> i32 {
         unsafe { ncnn_mat_get_c(self.ptr) }
     }
