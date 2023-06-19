@@ -184,7 +184,7 @@ impl Mat {
         }
     }
 
-    /// Constructs matrix from pixel byte array
+    /// Constructs matrix from a pixel byte array.
     pub fn from_pixels(
         data: &[u8],
         pixel_type: MatPixelType,
@@ -205,6 +205,37 @@ impl Mat {
                     width,
                     height,
                     width * pixel_type.stride(),
+                    alloc.map(Allocator::ptr).unwrap_or(core::ptr::null_mut()),
+                )
+            },
+        })
+    }
+
+    /// Constructs matrix from resizing a pixel byte array.
+    pub fn from_pixels_resize(
+        data: &[u8],
+        pixel_type: MatPixelType,
+        width: i32,
+        height: i32,
+        target_width: i32,
+        target_height: i32,
+        alloc: Option<&Allocator>,
+    ) -> anyhow::Result<Mat> {
+        let len = width * height * pixel_type.stride();
+        if data.len() != len as _ {
+            anyhow::bail!("Expected data length {}, provided {}", len, data.len());
+        }
+
+        Ok(Self {
+            ptr: unsafe {
+                ncnn_mat_from_pixels_resize(
+                    data.as_ptr(),
+                    pixel_type.to_int(),
+                    width,
+                    height,
+                    width * pixel_type.stride(),
+                    target_width,
+                    target_height,
                     alloc.map(Allocator::ptr).unwrap_or(core::ptr::null_mut()),
                 )
             },
