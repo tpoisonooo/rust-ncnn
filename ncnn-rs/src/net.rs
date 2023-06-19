@@ -7,6 +7,8 @@ pub struct Net {
     ptr: ncnn_net_t,
 }
 
+unsafe impl Send for Net {}
+
 impl Net {
     pub fn new() -> Net {
         Net {
@@ -65,11 +67,21 @@ impl Drop for Net {
 
 #[cfg(test)]
 mod tests {
+    use super::*;
+
+    fn is_send<T: Send>() -> bool { true }
+    fn is_sync<T: Sync>() -> bool { true }
+
     #[test]
     fn load_not_exist_model() {
-        use crate::net::*;
         let mut net = Net::new();
         net.load_param("not_exist.param")
             .expect_err("Expected param to be not found");
+    }
+
+    #[test]
+    fn check_sync_send() {
+        assert!(is_send::<Net>());
+        //assert!(is_sync::<Net>());
     }
 }
