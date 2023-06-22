@@ -3,12 +3,39 @@ use core::fmt;
 use ncnn_bind::*;
 use std::os::raw::c_void;
 
+const PIXEL_CONVERT_SHIFT: u32 = 16;
+
 pub enum MatPixelType {
     BGR,
     BGRA,
     GRAY,
     RGB,
     RGBA,
+
+    RGBtoBGR,
+    RGBtoGRAY,
+    RGBtoRGBA,
+    RGBtoBGRA,
+
+    BGRtoRGB,
+    BGRtoGRAY,
+    BGRtoRGBA,
+    BGRtoBGRA,
+
+    GRAYtoRGB,
+    GRAYtoBGR,
+    GRAYtoRGBA,
+    GRAYtoBGRA,
+
+    RGBAtoRGB,
+    RGBAtoBGR,
+    RGBAtoGRAY,
+    RGBAtoBGRA,
+
+    BGRAtoRGB,
+    BGRAtoBGR,
+    BGRAtoGRAY,
+    BGRAtoRGBA,
 }
 
 impl MatPixelType {
@@ -19,16 +46,96 @@ impl MatPixelType {
             MatPixelType::GRAY => NCNN_MAT_PIXEL_GRAY as _,
             MatPixelType::RGB => NCNN_MAT_PIXEL_RGB as _,
             MatPixelType::RGBA => NCNN_MAT_PIXEL_RGBA as _,
+            MatPixelType::RGBtoBGR => {
+                (NCNN_MAT_PIXEL_RGB | (NCNN_MAT_PIXEL_BGR << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::RGBtoGRAY => {
+                (NCNN_MAT_PIXEL_RGB | (NCNN_MAT_PIXEL_GRAY << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::RGBtoRGBA => {
+                (NCNN_MAT_PIXEL_RGB | (NCNN_MAT_PIXEL_RGBA << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::RGBtoBGRA => {
+                (NCNN_MAT_PIXEL_RGB | (NCNN_MAT_PIXEL_BGRA << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::BGRtoRGB => {
+                (NCNN_MAT_PIXEL_BGR | (NCNN_MAT_PIXEL_RGB << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::BGRtoGRAY => {
+                (NCNN_MAT_PIXEL_BGR | (NCNN_MAT_PIXEL_GRAY << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::BGRtoRGBA => {
+                (NCNN_MAT_PIXEL_BGR | (NCNN_MAT_PIXEL_RGBA << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::BGRtoBGRA => {
+                (NCNN_MAT_PIXEL_BGR | (NCNN_MAT_PIXEL_BGRA << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::GRAYtoRGB => {
+                (NCNN_MAT_PIXEL_GRAY | (NCNN_MAT_PIXEL_RGB << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::GRAYtoBGR => {
+                (NCNN_MAT_PIXEL_GRAY | (NCNN_MAT_PIXEL_BGR << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::GRAYtoRGBA => {
+                (NCNN_MAT_PIXEL_GRAY | (NCNN_MAT_PIXEL_RGBA << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::GRAYtoBGRA => {
+                (NCNN_MAT_PIXEL_GRAY | (NCNN_MAT_PIXEL_BGRA << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::RGBAtoRGB => {
+                (NCNN_MAT_PIXEL_RGBA | (NCNN_MAT_PIXEL_RGB << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::RGBAtoBGR => {
+                (NCNN_MAT_PIXEL_RGBA | (NCNN_MAT_PIXEL_BGR << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::RGBAtoGRAY => {
+                (NCNN_MAT_PIXEL_RGBA | (NCNN_MAT_PIXEL_GRAY << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::RGBAtoBGRA => {
+                (NCNN_MAT_PIXEL_RGBA | (NCNN_MAT_PIXEL_BGRA << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::BGRAtoRGB => {
+                (NCNN_MAT_PIXEL_BGRA | (NCNN_MAT_PIXEL_RGB << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::BGRAtoBGR => {
+                (NCNN_MAT_PIXEL_BGRA | (NCNN_MAT_PIXEL_BGR << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::BGRAtoGRAY => {
+                (NCNN_MAT_PIXEL_BGRA | (NCNN_MAT_PIXEL_GRAY << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::BGRAtoRGBA => {
+                (NCNN_MAT_PIXEL_BGRA | (NCNN_MAT_PIXEL_RGBA << PIXEL_CONVERT_SHIFT)) as _
+            }
         }
     }
 
     fn stride(&self) -> i32 {
         match self {
-            MatPixelType::BGR => 3,
-            MatPixelType::BGRA => 4,
-            MatPixelType::GRAY => 1,
-            MatPixelType::RGB => 3,
-            MatPixelType::RGBA => 4,
+            MatPixelType::BGR
+            | MatPixelType::BGRtoBGRA
+            | MatPixelType::BGRtoGRAY
+            | MatPixelType::BGRtoRGB
+            | MatPixelType::BGRtoRGBA => 3,
+            MatPixelType::BGRA
+            | MatPixelType::BGRAtoBGR
+            | MatPixelType::BGRAtoGRAY
+            | MatPixelType::BGRAtoRGB
+            | MatPixelType::BGRAtoRGBA => 4,
+            MatPixelType::GRAY
+            | MatPixelType::GRAYtoBGR
+            | MatPixelType::GRAYtoBGRA
+            | MatPixelType::GRAYtoRGB
+            | MatPixelType::GRAYtoRGBA => 1,
+            MatPixelType::RGB
+            | MatPixelType::RGBtoBGR
+            | MatPixelType::RGBtoBGRA
+            | MatPixelType::RGBtoGRAY
+            | MatPixelType::RGBtoRGBA => 3,
+            MatPixelType::RGBA
+            | MatPixelType::RGBAtoBGR
+            | MatPixelType::RGBAtoBGRA
+            | MatPixelType::RGBAtoGRAY
+            | MatPixelType::RGBAtoRGB => 4,
         }
     }
 }
