@@ -245,10 +245,13 @@ fn build_ncnn() -> Vec<PathBuf> {
     let include_paths: Vec<PathBuf> = if let Ok(ncnn_dir) = env::var("NCNN_DIR") {
         // use prebuild ncnn dir
         let dir = PathBuf::from(ncnn_dir);
-        println!(
-            "cargo:rustc-link-search=native={}",
-            dir.join("lib").to_string_lossy()
-        );
+
+        for suffix in ["lib", "lib64"].iter() {
+            println!(
+                "cargo:rustc-link-search=native={}",
+                output_dir().join(suffix).to_string_lossy()
+            );
+        }
 
         vec![dir.join("include").join("ncnn")]
     } else {
@@ -256,10 +259,12 @@ fn build_ncnn() -> Vec<PathBuf> {
         fetch().unwrap();
         build().unwrap();
 
-        println!(
-            "cargo:rustc-link-search=native={}",
-            output_dir().join("lib").to_string_lossy()
-        );
+        for suffix in ["lib", "lib64"].iter() {
+            println!(
+                "cargo:rustc-link-search=native={}",
+                output_dir().join(suffix).to_string_lossy()
+            );
+        }
 
         vec![output_dir().join("include").join("ncnn")]
     };
