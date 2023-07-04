@@ -3,12 +3,39 @@ use core::fmt;
 use ncnn_bind::*;
 use std::os::raw::c_void;
 
+const PIXEL_CONVERT_SHIFT: u32 = 16;
+
 pub enum MatPixelType {
     BGR,
     BGRA,
     GRAY,
     RGB,
     RGBA,
+
+    RGBtoBGR,
+    RGBtoGRAY,
+    RGBtoRGBA,
+    RGBtoBGRA,
+
+    BGRtoRGB,
+    BGRtoGRAY,
+    BGRtoRGBA,
+    BGRtoBGRA,
+
+    GRAYtoRGB,
+    GRAYtoBGR,
+    GRAYtoRGBA,
+    GRAYtoBGRA,
+
+    RGBAtoRGB,
+    RGBAtoBGR,
+    RGBAtoGRAY,
+    RGBAtoBGRA,
+
+    BGRAtoRGB,
+    BGRAtoBGR,
+    BGRAtoGRAY,
+    BGRAtoRGBA,
 }
 
 impl MatPixelType {
@@ -19,16 +46,96 @@ impl MatPixelType {
             MatPixelType::GRAY => NCNN_MAT_PIXEL_GRAY as _,
             MatPixelType::RGB => NCNN_MAT_PIXEL_RGB as _,
             MatPixelType::RGBA => NCNN_MAT_PIXEL_RGBA as _,
+            MatPixelType::RGBtoBGR => {
+                (NCNN_MAT_PIXEL_RGB | (NCNN_MAT_PIXEL_BGR << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::RGBtoGRAY => {
+                (NCNN_MAT_PIXEL_RGB | (NCNN_MAT_PIXEL_GRAY << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::RGBtoRGBA => {
+                (NCNN_MAT_PIXEL_RGB | (NCNN_MAT_PIXEL_RGBA << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::RGBtoBGRA => {
+                (NCNN_MAT_PIXEL_RGB | (NCNN_MAT_PIXEL_BGRA << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::BGRtoRGB => {
+                (NCNN_MAT_PIXEL_BGR | (NCNN_MAT_PIXEL_RGB << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::BGRtoGRAY => {
+                (NCNN_MAT_PIXEL_BGR | (NCNN_MAT_PIXEL_GRAY << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::BGRtoRGBA => {
+                (NCNN_MAT_PIXEL_BGR | (NCNN_MAT_PIXEL_RGBA << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::BGRtoBGRA => {
+                (NCNN_MAT_PIXEL_BGR | (NCNN_MAT_PIXEL_BGRA << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::GRAYtoRGB => {
+                (NCNN_MAT_PIXEL_GRAY | (NCNN_MAT_PIXEL_RGB << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::GRAYtoBGR => {
+                (NCNN_MAT_PIXEL_GRAY | (NCNN_MAT_PIXEL_BGR << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::GRAYtoRGBA => {
+                (NCNN_MAT_PIXEL_GRAY | (NCNN_MAT_PIXEL_RGBA << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::GRAYtoBGRA => {
+                (NCNN_MAT_PIXEL_GRAY | (NCNN_MAT_PIXEL_BGRA << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::RGBAtoRGB => {
+                (NCNN_MAT_PIXEL_RGBA | (NCNN_MAT_PIXEL_RGB << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::RGBAtoBGR => {
+                (NCNN_MAT_PIXEL_RGBA | (NCNN_MAT_PIXEL_BGR << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::RGBAtoGRAY => {
+                (NCNN_MAT_PIXEL_RGBA | (NCNN_MAT_PIXEL_GRAY << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::RGBAtoBGRA => {
+                (NCNN_MAT_PIXEL_RGBA | (NCNN_MAT_PIXEL_BGRA << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::BGRAtoRGB => {
+                (NCNN_MAT_PIXEL_BGRA | (NCNN_MAT_PIXEL_RGB << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::BGRAtoBGR => {
+                (NCNN_MAT_PIXEL_BGRA | (NCNN_MAT_PIXEL_BGR << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::BGRAtoGRAY => {
+                (NCNN_MAT_PIXEL_BGRA | (NCNN_MAT_PIXEL_GRAY << PIXEL_CONVERT_SHIFT)) as _
+            }
+            MatPixelType::BGRAtoRGBA => {
+                (NCNN_MAT_PIXEL_BGRA | (NCNN_MAT_PIXEL_RGBA << PIXEL_CONVERT_SHIFT)) as _
+            }
         }
     }
 
     fn stride(&self) -> i32 {
         match self {
-            MatPixelType::BGR => 3,
-            MatPixelType::BGRA => 4,
-            MatPixelType::GRAY => 1,
-            MatPixelType::RGB => 3,
-            MatPixelType::RGBA => 4,
+            MatPixelType::BGR
+            | MatPixelType::BGRtoBGRA
+            | MatPixelType::BGRtoGRAY
+            | MatPixelType::BGRtoRGB
+            | MatPixelType::BGRtoRGBA => 3,
+            MatPixelType::BGRA
+            | MatPixelType::BGRAtoBGR
+            | MatPixelType::BGRAtoGRAY
+            | MatPixelType::BGRAtoRGB
+            | MatPixelType::BGRAtoRGBA => 4,
+            MatPixelType::GRAY
+            | MatPixelType::GRAYtoBGR
+            | MatPixelType::GRAYtoBGRA
+            | MatPixelType::GRAYtoRGB
+            | MatPixelType::GRAYtoRGBA => 1,
+            MatPixelType::RGB
+            | MatPixelType::RGBtoBGR
+            | MatPixelType::RGBtoBGRA
+            | MatPixelType::RGBtoGRAY
+            | MatPixelType::RGBtoRGBA => 3,
+            MatPixelType::RGBA
+            | MatPixelType::RGBAtoBGR
+            | MatPixelType::RGBAtoBGRA
+            | MatPixelType::RGBAtoGRAY
+            | MatPixelType::RGBAtoRGB => 4,
         }
     }
 }
@@ -36,6 +143,9 @@ impl MatPixelType {
 pub struct Mat {
     ptr: ncnn_mat_t,
 }
+
+// Mat is basically a glorified atomically refcounted matrix.
+unsafe impl Send for Mat {}
 
 impl Mat {
     /// Constructs an empty matrix.
@@ -181,7 +291,7 @@ impl Mat {
         }
     }
 
-    /// Constructs matrix from pixel byte array
+    /// Constructs matrix from a pixel byte array
     pub fn from_pixels(
         data: &[u8],
         pixel_type: MatPixelType,
@@ -208,6 +318,37 @@ impl Mat {
         })
     }
 
+    /// Constructs matrix from resizing a pixel byte array.
+    pub fn from_pixels_resize(
+        data: &[u8],
+        pixel_type: MatPixelType,
+        width: i32,
+        height: i32,
+        target_width: i32,
+        target_height: i32,
+        alloc: Option<&Allocator>,
+    ) -> anyhow::Result<Mat> {
+        let len = width * height * pixel_type.stride();
+        if data.len() != len as _ {
+            anyhow::bail!("Expected data length {}, provided {}", len, data.len());
+        }
+
+        Ok(Self {
+            ptr: unsafe {
+                ncnn_mat_from_pixels_resize(
+                    data.as_ptr(),
+                    pixel_type.to_int(),
+                    width,
+                    height,
+                    width * pixel_type.stride(),
+                    target_width,
+                    target_height,
+                    alloc.map(Allocator::ptr).unwrap_or(core::ptr::null_mut()),
+                )
+            },
+        })
+    }
+
     pub fn substract_mean_normalize(&mut self, mean_vals: &[f32], norm_vals: &[f32]) {
         let channels = self.c() as usize;
         assert_eq!(mean_vals.len(), channels);
@@ -227,22 +368,22 @@ impl Mat {
         unsafe { ncnn_mat_get_dims(self.ptr) }
     }
 
-    /// Returns matrix width
+    /// Returns matrix width.
     pub fn w(&self) -> i32 {
         unsafe { ncnn_mat_get_w(self.ptr) }
     }
 
-    /// Returns matrix height
+    /// Returns matrix height.
     pub fn h(&self) -> i32 {
         unsafe { ncnn_mat_get_h(self.ptr) }
     }
 
-    /// Returns matrix depth
+    /// Returns matrix depth.
     pub fn d(&self) -> i32 {
         unsafe { ncnn_mat_get_d(self.ptr) }
     }
 
-    /// Returns matrix channels
+    /// Returns matrix channels.
     pub fn c(&self) -> i32 {
         unsafe { ncnn_mat_get_c(self.ptr) }
     }

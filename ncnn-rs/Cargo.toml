@@ -15,3 +15,16 @@ keywords = ["binding", "ncnn", "API"]
 anyhow = "1"
 ncnn-bind = { path = "../ncnn-bind" }
 libc  = "0.2"
+
+[features]
+# Explicitly use static linking
+static = [ "ncnn-bind/static" ]
+# Explicitly use dynamic linking
+dynamic = [ "ncnn-bind/dynamic" ]
+
+# Enable vulkan backend
+vulkan = [ "ncnn-bind/vulkan" ]
+# Enable vulkan backend using a system provided glslang
+vulkan-system-glslang = [ "ncnn-bind/vulkan-system-glslang" ]
+# Enable vulkan backend using a statically linked glslang
+vulkan-static-glslang = [ "ncnn-bind/vulkan-static-glslang" ]

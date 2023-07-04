@@ -16,6 +16,10 @@ static = []
 dynamic = []
 # Enable vulkan backend
 vulkan = []
+# Enable vulkan backend using a system provided glslang
+vulkan-system-glslang = []
+# Enable vulkan backend using a statically linked glslang
+vulkan-static-glslang = []
 
 [dependencies]
 libc = "0.2"
