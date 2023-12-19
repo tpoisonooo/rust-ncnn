@@ -1,4 +1,8 @@
-# rust-ncnn
+<div align="center">
+<img src="images/logo-512.jpg" width="128"/>
+</div>
+
+## rust-ncnn
 [![GitHub license](https://img.shields.io/badge/license-apache--2--Clause-brightgreen.svg)](./LICENSE) [![CI](https://img.shields.io/github/actions/workflow/status/tpoisonooo/rust-ncnn/ci.yaml?branch=master)](https://github.com/tpoisonooo/rust-ncnn/actions/workflows/ci.yaml?query=workflow%3A)
 
 Rust bindings for [ncnn](https://github.com/tencent/ncnn).
@@ -12,15 +16,15 @@ Open Github pages
 Or `cargo doc` and open with browser byself
 
 ```bash
-$ cd /path/to/rust-ncnn
-$ cargo doc --open
+cd /path/to/rust-ncnn
+cargo doc --open
 ```
 
 ## Prequisition
 
 ### Rust Env
 ```bash
-$ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
+curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 ```
 
 
@@ -29,7 +33,7 @@ $ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 Rust cmake needs `--parallel` option thus CMake>=3.12 is complusory
 
 ```bash
-$ pip install cmake --upgrade --user
+pip install cmake --upgrade --user
 ```
 
 ### Clang >= 3.9
@@ -37,26 +41,30 @@ $ pip install cmake --upgrade --user
 Rust bindgen uses `clang` to generate `bindings.rs` from `c_api.h`
 
 ```bash
-$ sudo apt install clang-3.9 libclang-3.9-dev
-$ sudo apt install clang-10 libclang-10-dev # use clang-10 for ubuntu 20.04 
+sudo apt install clang-3.9 libclang-3.9-dev
+sudo apt install clang-10 libclang-10-dev # use clang-10 for ubuntu 20.04 
+sudo apt install clang libclang-dev # use clang-14 for Linux maixbox 5.15.7 
 ```
 
 ## Build
 
 ncnn build from source:
 ```bash
-$ cd rust-ncnn/
-$ cargo run --example get_version
+cd rust-ncnn/
+cargo run --example get_version
+# print YYYYMMDD
 ```
 
 Use specific ncnn release:
 ```bash
-$ export NCNN_TAG="20220420"
+export NCNN_TAG="20231027"
 ```
+
+[Here](https://github.com/Tencent/ncnn/tags) is all available release tags.
 
 Use prebuilt ncnn:
 ```bash
-$ export NCNN_DIR="/path/to/your/ncnn/lib"
+export NCNN_DIR="/path/to/your/ncnn/lib"
 ```
 
 Or use vcpkg
@@ -71,27 +79,27 @@ By default library uses dynamic **linking on linux** and **static linking on win
 
 To explicitly use static linking:
 ```bash
-$ cargo build --example benchmark --features ncnn-bind/static
+cargo build --example benchmark --features ncnn-bind/static
 ```
 
 To explicitly use dynamic linking:
 ```bash
-$ cargo build --example benchmark --features ncnn-bind/dynamic
+cargo build --example benchmark --features ncnn-bind/dynamic
 ```
 
 ## Vulkan
 
 Build with Vulkan support (requires Vulkan SDK):
 ```bash
-$ cargo build --example benchmark --features ncnn-bind/vulkan
+cargo build --example benchmark --features ncnn-bind/vulkan
 ```
 
 ## Run Examples and UnitTest
 
 ```bash
-$ cargo test
-$ cargo run --example get_version
-$ cargo run --example benchmark --release
+cargo test
+cargo run --example get_version
+cargo run --example benchmark --release
     Finished release [optimized] target(s) in 0.01s
      Running `target/release/examples/benchmark`
 squeezenet.param 		 2 ms
@@ -126,6 +134,10 @@ yolov4-tiny.param 		 20 ms
 nanodet-plus-m_416.param 		 11 ms
 nanodet-plus-m_416-int8.param 		 20 ms
 ```
+
+## FAQ
+* cross-build: rust-ncnn currently **not support** cross-build, please excute `cargo build` on target board.
+
 
 ## Acknowledgements
 
