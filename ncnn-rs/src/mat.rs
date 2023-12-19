@@ -396,8 +396,16 @@ impl Mat {
         unsafe { ncnn_mat_get_elempack(self.ptr) }
     }
 
-    pub fn cstep(&self) -> u64 {
-        unsafe { ncnn_mat_get_cstep(self.ptr) }
+    pub fn cstep(&self) -> usize {
+        #[cfg(target_pointer_width = "32")]
+        {
+            unsafe { ncnn_mat_get_cstep(self.ptr) as u32 as usize }
+        }
+
+        #[cfg(target_pointer_width = "64")]
+        {
+            unsafe { ncnn_mat_get_cstep(self.ptr) as u64 as usize }
+        }
     }
 
     /// Pointer to raw matrix data
